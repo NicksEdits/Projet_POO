@@ -28,6 +28,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     private int sizeX; // taille de la grille affichée
     private int sizeY;
+    private int width; 
+    private int height; 
 
     // icones affichées dans la grille
     private ImageIcon icoHero;
@@ -43,7 +45,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
         sizeX = jeu.SIZE_X;
         sizeY = _jeu.SIZE_Y;
         jeu = _jeu;
-
+        width = sizeX * 18;
+        height = sizeY * 20;
         chargerLesIcones();
         placerLesComposantsGraphiques();
         ajouterEcouteurClavier();
@@ -75,7 +78,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     private void placerLesComposantsGraphiques() {
         setTitle("Gyromite");
-        setSize(1920, 1080); // changement de la taille de la fenetre 
+        setSize(width, height); // changement de la taille de la fenetre 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
         JComponent grilleJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
