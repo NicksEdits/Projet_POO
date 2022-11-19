@@ -45,8 +45,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
         sizeX = jeu.SIZE_X;
         sizeY = _jeu.SIZE_Y;
         jeu = _jeu;
-        width = sizeX * 18;
-        height = sizeY * 20;
+        width = sizeX * 23;
+        height = sizeY * 23;
         chargerLesIcones();
         placerLesComposantsGraphiques();
         ajouterEcouteurClavier();

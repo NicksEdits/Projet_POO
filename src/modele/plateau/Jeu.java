@@ -18,8 +18,8 @@ import java.util.HashMap;
  */
 public class Jeu {
 
-    public static final int SIZE_X = 30; // Max 106 pour du 1920
-    public static final int SIZE_Y = 54; // Max 54 pour du 1080
+    public static final int SIZE_X = 30; // Max 77 pour <du 1920
+    public static final int SIZE_Y = 30; // Max 45 pour du 1080
 
     // compteur de déplacements horizontal et vertical (1 max par défaut, à chaque pas de temps)
     private HashMap<Entite, Integer> cmptDeplH = new HashMap<Entite, Integer>();
@@ -71,7 +71,7 @@ public class Jeu {
         }
 
         // murs extérieurs verticaux
-        for (int y = 1; y < SIZE_Y-1; y++) {
+        for (int y = 1; y < SIZE_Y; y++) {
             addEntite(new Mur(this), 0, y);
             addEntite(new Mur(this), SIZE_X-1, y);// changement de nombre en dur par SIZE_X-1 
         }
