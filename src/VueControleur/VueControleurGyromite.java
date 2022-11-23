@@ -37,6 +37,16 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private ImageIcon icoVide;
     private ImageIcon icoMur;
     private ImageIcon icoColonne;
+    private ImageIcon icoColonne_haut; // extremité des colonnes
+    private ImageIcon icoColonne_bas;
+    private ImageIcon icoCable;
+
+
+    private ImageIcon icoPlatforme; // different type de platformes
+    private ImageIcon icoPlatforme_vertical;
+    private ImageIcon icoPlatforme_avant_colonne;
+    private ImageIcon icoPlatforme_apres_colonne;
+
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
@@ -45,8 +55,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
         sizeX = jeu.SIZE_X;
         sizeY = _jeu.SIZE_Y;
         jeu = _jeu;
-        width = sizeX * 23;
-        height = sizeY * 23;
+        width = sizeX * 18;
+        height = sizeY * 21;
         chargerLesIcones();
         placerLesComposantsGraphiques();
         ajouterEcouteurClavier();
@@ -70,10 +80,19 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private void chargerLesIcones() {
         icoHero = chargerIcone("Images/player_ca.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
         //icoBot = chargerIcone("Images/smick.png", 0, 0, 20, 20);//chargerIcone("Images/Pacman.png");
+        icoVide = chargerIcone("Images/Mur.png");
+        icoColonne = chargerIcone("Images/tileset.png", 17,45,15,15);
+        icoColonne_haut = chargerIcone("Images/tileset.png", 1,49,15,15);
+        icoColonne_bas = chargerIcone("Images/tileset.png", 33,49,15,15);
 
-        icoVide = chargerIcone("Images/Vide.png");
-        icoColonne = chargerIcone("Images/Colonne.png");
         icoMur = chargerIcone("Images/Mur.png");
+        icoPlatforme = chargerIcone("Images/tileset.png", 0, 0, 15, 15);
+        icoPlatforme_vertical = chargerIcone("Images/tileset.png", 0, 15, 15, 15);
+        icoPlatforme_avant_colonne = chargerIcone("Images/tileset.png", 15, 15, 15, 15);
+        icoPlatforme_apres_colonne = chargerIcone("Images/tileset.png", 34, 15, 15, 15);
+        icoCable = chargerIcone("Images/tileset.png",18,0,15,15 );
+
+
     }
 
     private void placerLesComposantsGraphiques() {
@@ -114,12 +133,45 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
                 } else if (jeu.getGrille()[x][y] instanceof Bot) {
                     tabJLabel[x][y].setIcon(icoBot);
-
-                } else if (jeu.getGrille()[x][y] instanceof Mur) {
+                }
+                
+                else if (jeu.getGrille()[x][y] instanceof Mur) {
                     tabJLabel[x][y].setIcon(icoMur);
-                } else if (jeu.getGrille()[x][y] instanceof Colonne) {
-                    tabJLabel[x][y].setIcon(icoColonne);
-                } else {
+                } 
+                else if (jeu.getGrille()[x][y] instanceof Cable) {
+                    tabJLabel[x][y].setIcon(icoCable); 
+                }
+                else if (jeu.getGrille()[x][y] instanceof Colonne) {
+                    Colonne col = (Colonne)jeu.getGrille()[x][y] ;
+                   switch(col.getType()){
+                    case 1 : // colonne sans extrémités
+                    tabJLabel[x][y].setIcon(icoColonne); 
+                    break;
+                    case 2 : // extremité du haut de la colonne
+                    tabJLabel[x][y].setIcon(icoColonne_haut); 
+                    break;
+                    case 3 : // extremité du bas de la colonne
+                    tabJLabel[x][y].setIcon(icoColonne_bas);
+                   }
+                }
+                else if (jeu.getGrille()[x][y] instanceof Platforme) {
+                    Platforme plat = (Platforme)jeu.getGrille()[x][y] ;
+                    switch(plat.getType()){
+
+                    case 1 : 
+                    tabJLabel[x][y].setIcon(icoPlatforme); // platforme horizontal
+                    break;
+                    case 2 : 
+                    tabJLabel[x][y].setIcon(icoPlatforme_vertical); // platforme verticale
+                    break;
+                    case 3 : 
+                    tabJLabel[x][y].setIcon(icoPlatforme_avant_colonne); // platforme avant la colonne
+                    break;
+                    case 4 : 
+                    tabJLabel[x][y].setIcon(icoPlatforme_apres_colonne); // platforme apres la colonne
+                    break;
+                    }
+                }else {
                     tabJLabel[x][y].setIcon(icoVide);
                 }
             }

@@ -1,7 +1,13 @@
 package modele.plateau;
 
 public class Colonne extends EntiteDynamique {
-    public Colonne(Jeu _jeu) { super(_jeu); }
+    private int type;
+
+    public Colonne(Jeu _jeu,int type) { super(_jeu); 
+        this.type = type;}
+        public int getType(){
+            return type;
+        }
 
     public boolean peutEtreEcrase() { return false; }
     public boolean peutServirDeSupport() { return true; }

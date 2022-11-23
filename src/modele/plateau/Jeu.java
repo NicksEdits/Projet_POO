@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class Jeu {
 
     public static final int SIZE_X = 30; // Max 77 pour <du 1920
-    public static final int SIZE_Y = 30; // Max 45 pour du 1080
+    public static final int SIZE_Y = 20; // Max 45 pour du 1080
 
     // compteur de déplacements horizontal et vertical (1 max par défaut, à chaque pas de temps)
     private HashMap<Entite, Integer> cmptDeplH = new HashMap<Entite, Integer>();
@@ -75,9 +75,96 @@ public class Jeu {
             addEntite(new Mur(this), 0, y);
             addEntite(new Mur(this), SIZE_X-1, y);// changement de nombre en dur par SIZE_X-1 
         }
+       
+       
+        //Platformes
+        for (int i = 1; i < 19 ; i++){
+            addEntite(new Platforme(this,2), 26, i);
+       }
+        for (int y = 1; y < 15; y++){
+            addEntite(new Platforme(this,1), y, 18);
+        }
+        for (int y = 14; y < 29; y++){
+            addEntite(new Platforme(this,1), y, 15);
+        }
+        for (int i = 9; i < 23 ; i++){
+            addEntite(new Platforme(this,1), i, 11);
+        }
+        for (int i = 1; i < 10 ; i++){
+            addEntite(new Platforme(this,1), i, 14);
+        }
+        for (int i = 6; i < 11 ; i++){
+            addEntite(new Platforme(this,2), 22, i);
+        }
+        for (int i = 6; i < 11 ; i++){
+            addEntite(new Platforme(this,2), 15, i);
+        }
+        for (int i = 20; i < 25 ; i++){
+            addEntite(new Platforme(this,1), i, 5);
+        }
+        for (int i = 11; i < 17 ; i++){
+            addEntite(new Platforme(this,1), i, 5);
+        } 
+        for (int i = 1; i < 3 ; i++){
+            addEntite(new Platforme(this,1), i, 8);
+        } 
+        for (int i = 6; i < 8 ; i++){
+            addEntite(new Platforme(this,1), i, 8);
+        } 
+        for (int i = 1; i < 10 ; i++){
+            addEntite(new Platforme(this,1), i, 3);
+        } 
+        addEntite(new Platforme(this, 3), 3, 8);
+        addEntite(new Platforme(this, 4), 5, 8);
+        addEntite(new Platforme(this, 1), 4, 13);
+        addEntite(new Platforme(this,2), 9, 12);
+        addEntite(new Platforme(this,2), 9, 13);
+        addEntite(new Platforme(this,1), 24, 12);
+        addEntite(new Platforme(this,2), 24, 13);
+        addEntite(new Platforme(this,2), 24, 14);
+        addEntite(new Platforme(this, 3), 17, 5);
+        addEntite(new Platforme(this, 4), 19, 5);
+        addEntite(new Platforme(this, 1), 18,10);
+        addEntite(new Platforme(this,3), 16, 15);
+        addEntite(new Platforme(this,4), 18, 15);
+        addEntite(new Platforme(this,2), 14, 17);
+        addEntite(new Platforme(this,2), 14, 16);
+        //Colonnes
+        addEntite(new Colonne(this,2), 18, 1);
+        addEntite(new Colonne(this,1), 18 , 2);
+        addEntite(new Colonne(this,1), 18 , 3);
+        addEntite(new Colonne(this,1), 18 , 4);
+        addEntite(new Colonne(this,3), 18, 5);     
+        addEntite(new Colonne(this,2), 4, 8);
+        addEntite(new Colonne(this,1), 4 , 9);
+        addEntite(new Colonne(this,1), 4 , 10);
+        addEntite(new Colonne(this,1), 4 , 11);
+        addEntite(new Colonne(this,3), 4, 12);
+        addEntite(new Colonne(this,2), 17, 12);
+        addEntite(new Colonne(this,1), 17 , 14);
+        addEntite(new Colonne(this,1), 17 , 13);
+        addEntite(new Colonne(this,3), 17, 15);
+        //Cables 
+         for( int i = 6; i < 15 ; i++){
+            addEntite( new Cable(this), 23, i);
 
-        addEntite(new Mur(this), 2, 6);
-        addEntite(new Mur(this), 3, 6);
+        }
+        for( int i = 1; i < 15 ; i++){
+            addEntite( new Cable(this), 25, i);
+
+        }
+        for( int i = 9; i < 14 ; i++){
+            addEntite( new Cable(this), 7, i);
+
+        }
+        for( int i = 4; i < 11 ; i++){
+            addEntite( new Cable(this), 9, i);
+
+        }
+        for( int i = 12; i < 18 ; i++){
+            addEntite( new Cable(this), 13, i);
+
+        }       
     }
 
     private void addEntite(Entite e, int x, int y) {
@@ -103,7 +190,7 @@ public class Jeu {
         
         Point pCible = calculerPointCible(pCourant, d);
         
-        if (contenuDansGrille(pCible) && objetALaPosition(pCible) == null) { // a adapter (collisions murs, etc.)
+        if (contenuDansGrille(pCible) && objetALaPosition(pCible)  == null  ) { // a adapter (collisions murs, etc.)
             // compter le déplacement : 1 deplacement horizontal et vertical max par pas de temps par entité
             switch (d) {
                 case bas:
