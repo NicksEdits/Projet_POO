@@ -1,6 +1,8 @@
 package VueControleur;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -50,6 +52,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
+    private Timer timer;
+    private int timeSecond = 120;   //Set ici le temps de jeu de base
 
     public VueControleurGyromite(Jeu _jeu) {
         sizeX = jeu.SIZE_X;
@@ -100,6 +104,9 @@ public class VueControleurGyromite extends JFrame implements Observer {
         setSize(width, height); // changement de la taille de la fenetre 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
+        JComponent gamePanel = new JPanel(new BorderLayout()); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+
+
         JComponent grilleJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
         tabJLabel = new JLabel[sizeX][sizeY];
@@ -112,10 +119,34 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 grilleJLabels.add(jlab);
             }
         }
-        add(grilleJLabels);
+
+
+        //Ajout du timer sur la pannel
+        JComponent toolBar = new JPanel(new BorderLayout());
+        JLabel timerCounter = new JLabel(Integer.toString(timeSecond));
+        toolBar.add(timerCounter, BorderLayout.CENTER);
+
+
+        gamePanel.add(toolBar, BorderLayout.NORTH);
+        gamePanel.add(grilleJLabels, BorderLayout.CENTER);
+        add(gamePanel);
+
+        //Section qui gère le timer du jeu
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timeSecond--;
+                timerCounter.setText(Integer.toString(timeSecond));
+                if(timeSecond == 0){
+
+                }
+            }
+        });
+        timer.start();
     }
 
-    
+
     /**
      * Il y a une grille du côté du modèle ( jeu.getGrille() ) et une grille du côté de la vue (tabJLabel)
      */
@@ -176,6 +207,9 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 }
             }
         }
+
+
+
     }
 
     @Override
