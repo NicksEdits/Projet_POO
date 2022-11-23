@@ -144,7 +144,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 else if (jeu.getGrille()[x][y] instanceof Colonne) {
                     Colonne col = (Colonne)jeu.getGrille()[x][y] ;
                    switch(col.getType()){
-                    case 1 : // colonne sans extrémités
+                    case 1 : // simple colonne sans extrémités
                     tabJLabel[x][y].setIcon(icoColonne); 
                     break;
                     case 2 : // extremité du haut de la colonne
