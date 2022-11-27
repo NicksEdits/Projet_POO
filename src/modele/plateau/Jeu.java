@@ -18,8 +18,8 @@ import java.util.HashMap;
  */
 public class Jeu {
 
-    public static final int SIZE_X = 30; // Max 77 pour <du 1920
-    public static final int SIZE_Y = 20; // Max 45 pour du 1080
+    public static final int SIZE_X = 30; // Max 100 pour <du 1920
+    public static final int SIZE_Y = 20; // Max 43 pour du 1080
 
     // compteur de déplacements horizontal et vertical (1 max par défaut, à chaque pas de temps)
     private HashMap<Entite, Integer> cmptDeplH = new HashMap<Entite, Integer>();
