@@ -9,6 +9,7 @@ import modele.deplacements.Controle4Directions;
 import modele.deplacements.Direction;
 import modele.deplacements.Gravite;
 import modele.deplacements.Ordonnanceur;
+import modele.deplacements.RealisateurDeDeplacement;
 
 import java.awt.Point;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class Jeu {
     private HashMap<Entite, Integer> cmptDeplV = new HashMap<Entite, Integer>();
 
     private Heros hector;
+    private Bot smick;
 
     private HashMap<Entite, Point> map = new  HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private Entite[][] grilleEntites = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -52,17 +54,42 @@ public class Jeu {
     public Heros getHector() {
         return hector;
     }
+    public Bot getSmick() {
+        return smick;
+    }
     
     private void initialisationDesEntites() {
+       // hero 
         hector = new Heros(this);
         addEntite(hector, 2, 1);
+        // smick
+        smick = new Bot(this);
+        addEntite(smick,13, 4);
+        addEntite(smick,20, 14);
 
+        // gravité + directions pour Hector
         Gravite g = new Gravite();
         g.addEntiteDynamique(hector);
         ordonnanceur.add(g);
 
+        // gravité + directions pour les smicks
+        Gravite s= new Gravite();
+        s.addEntiteDynamique(smick);
+        ordonnanceur.add(s);
+
         Controle4Directions.getInstance().addEntiteDynamique(hector);
         ordonnanceur.add(Controle4Directions.getInstance());
+       
+        // bombes 
+        addEntite(new Ramassable(this,1), 7, 17);
+
+        // radis
+
+        addEntite(new Ramassable(this,2), 2, 13);
+        addEntite(new Ramassable(this,2), 5, 7);
+        addEntite(new Ramassable(this,2), 10, 13);
+
+
 
         // murs extérieurs horizontaux
         for (int x = 0; x < SIZE_X; x++) {
@@ -87,10 +114,13 @@ public class Jeu {
         for (int y = 14; y < 29; y++){
             addEntite(new Platforme(this,1), y, 15);
         }
-        for (int i = 9; i < 23 ; i++){
+        for (int i = 9; i < 17 ; i++){
             addEntite(new Platforme(this,1), i, 11);
         }
-        for (int i = 1; i < 10 ; i++){
+        for (int i = 18; i < 23 ; i++){
+            addEntite(new Platforme(this,1), i, 11);
+        }
+        for (int i = 1; i < 14 ; i++){
             addEntite(new Platforme(this,1), i, 14);
         }
         for (int i = 6; i < 11 ; i++){
@@ -108,7 +138,7 @@ public class Jeu {
         for (int i = 1; i < 3 ; i++){
             addEntite(new Platforme(this,1), i, 8);
         } 
-        for (int i = 6; i < 8 ; i++){
+        for (int i = 6; i < 9 ; i++){
             addEntite(new Platforme(this,1), i, 8);
         } 
         for (int i = 1; i < 10 ; i++){
@@ -129,6 +159,8 @@ public class Jeu {
         addEntite(new Platforme(this,4), 18, 15);
         addEntite(new Platforme(this,2), 14, 17);
         addEntite(new Platforme(this,2), 14, 16);
+        addEntite(new Platforme(this,1), 17, 10);
+
         //Colonnes
         addEntite(new Colonne(this,2), 18, 1);
         addEntite(new Colonne(this,1), 18 , 2);
@@ -140,9 +172,10 @@ public class Jeu {
         addEntite(new Colonne(this,1), 4 , 10);
         addEntite(new Colonne(this,1), 4 , 11);
         addEntite(new Colonne(this,3), 4, 12);
-        addEntite(new Colonne(this,2), 17, 12);
+        addEntite(new Colonne(this,2), 17, 11);
         addEntite(new Colonne(this,1), 17 , 14);
         addEntite(new Colonne(this,1), 17 , 13);
+        addEntite(new Colonne(this,1), 17 , 12);
         addEntite(new Colonne(this,3), 17, 15);
         //Cables 
          for( int i = 6; i < 15 ; i++){
@@ -154,7 +187,7 @@ public class Jeu {
 
         }
         for( int i = 9; i < 14 ; i++){
-            addEntite( new Cable(this), 7, i);
+            addEntite( new Cable(this), 8, i);
 
         }
         for( int i = 4; i < 11 ; i++){
@@ -164,7 +197,15 @@ public class Jeu {
         for( int i = 12; i < 18 ; i++){
             addEntite( new Cable(this), 13, i);
 
-        }       
+        }     
+        for( int i = 12; i < 15 ; i++){
+            addEntite( new Cable(this), 21, i);
+
+        }      
+        for( int i = 12; i < 15 ; i++){
+            addEntite( new Cable(this), 16, i);
+
+        }     
     }
 
     private void addEntite(Entite e, int x, int y) {

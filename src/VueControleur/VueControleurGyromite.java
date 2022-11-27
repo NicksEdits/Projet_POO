@@ -36,12 +36,15 @@ public class VueControleurGyromite extends JFrame implements Observer {
     // icones affichées dans la grille
     private ImageIcon icoHero;
     private ImageIcon icoBot;
+    private ImageIcon icoBombe;
     private ImageIcon icoVide;
     private ImageIcon icoMur;
     private ImageIcon icoColonne;
     private ImageIcon icoColonne_haut; // extremité des colonnes
     private ImageIcon icoColonne_bas;
     private ImageIcon icoCable;
+    private ImageIcon icoRadis;
+    private ImageIcon icoBonus;
 
 
     private ImageIcon icoPlatforme; // different type de platformes
@@ -83,19 +86,20 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     private void chargerLesIcones() {
         icoHero = chargerIcone("Images/player_ca.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
-        //icoBot = chargerIcone("Images/smick.png", 0, 0, 20, 20);//chargerIcone("Images/Pacman.png");
+        icoBot = chargerIcone("Images/smick_ca.png", 0, 0, 40, 40);//chargerIcone("Images/Pacman.png");
         icoVide = chargerIcone("Images/Mur.png");
         icoColonne = chargerIcone("Images/tileset.png", 17,45,15,15);
         icoColonne_haut = chargerIcone("Images/tileset.png", 1,49,15,15);
         icoColonne_bas = chargerIcone("Images/tileset.png", 33,49,15,15);
-
+        icoBombe = chargerIcone("Images/bomb_ca.png", 10,10,45,45);
         icoMur = chargerIcone("Images/Mur.png");
         icoPlatforme = chargerIcone("Images/tileset.png", 0, 0, 15, 15);
         icoPlatforme_vertical = chargerIcone("Images/tileset.png", 0, 15, 15, 15);
         icoPlatforme_avant_colonne = chargerIcone("Images/tileset.png", 15, 15, 15, 15);
         icoPlatforme_apres_colonne = chargerIcone("Images/tileset.png", 34, 15, 15, 15);
         icoCable = chargerIcone("Images/tileset.png",18,0,15,15 );
-
+        icoRadis = chargerIcone("Images/smick_ca.png", 35,130,30,30);
+        icoBonus = chargerIcone("Images/bomb_ca.png", 10,10,45,45);
 
     }
 
@@ -169,6 +173,32 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 else if (jeu.getGrille()[x][y] instanceof Mur) {
                     tabJLabel[x][y].setIcon(icoMur);
                 } 
+                
+                else if (jeu.getGrille()[x][y] instanceof Ramassable) {
+                    Ramassable plat = (Ramassable)jeu.getGrille()[x][y] ;
+                    switch(plat.getType()){
+
+                    case 1 : 
+                    tabJLabel[x][y].setIcon(icoBombe); // Bombe 
+                    break;
+                    case 2 : 
+                    tabJLabel[x][y].setIcon(icoRadis); // Radis 
+                    break;
+
+                    case 3 : 
+                    tabJLabel[x][y].setIcon(icoBonus); // Bombe 
+                    break; 
+                   /* case 4 : 
+                    tabJLabel[x][y].setIcon(icoBombeEnclenché); // Bombe encleché
+                    break;
+                    case 5 : 
+                    tabJLabel[x][y].setIcon(icoBombe_explosé); // Bombe explosé
+                    break;
+                    case 6 : 
+                    tabJLabel[x][y].setIcon( ); // platforme apres la colonne
+                    break;*/
+                    }
+                }
                 else if (jeu.getGrille()[x][y] instanceof Cable) {
                     tabJLabel[x][y].setIcon(icoCable); 
                 }
