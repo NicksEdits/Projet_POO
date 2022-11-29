@@ -56,7 +56,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
     private Timer timer;
-    private int timeSecond = 120;   //Set ici le temps de jeu de base
+    private int timeSecond = 10;   //Set ici le temps de jeu de base
 
     public VueControleurGyromite(Jeu _jeu) {
         sizeX = jeu.SIZE_X;
@@ -143,7 +143,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 timeSecond--;
                 timerCounter.setText(Integer.toString(timeSecond));
                 if(timeSecond == 0){
-
+                    timer.stop();
                 }
             }
         });

@@ -6,5 +6,5 @@ public class Cable extends EntiteStatique {
     @Override
     public boolean peutPermettreDeMonterDescendre() { return true; }
     @Override
-    public boolean peutServirDeSupport() { return true; }
+    public boolean peutServirDeSupport() { return false; }
 }

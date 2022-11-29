@@ -214,6 +214,7 @@ public class Jeu {
     }
     
     /** Permet par exemple a une entité  de percevoir sont environnement proche et de définir sa stratégie de déplacement
+     * renvoie simplement ce qu'il y à dans la case à regarder
      *
      */
     public Entite regarderDansLaDirection(Entite e, Direction d) {
@@ -229,9 +230,11 @@ public class Jeu {
         
         Point pCourant = map.get(e);
         
-        Point pCible = calculerPointCible(pCourant, d);
+        Point pCible = calculerPointCible(pCourant, d);     // ex : regarde dans la case ou le joueur veux aller pour voir si c'est possible d'y aller
         
-        if (contenuDansGrille(pCible) && objetALaPosition(pCible)  == null  ) { // a adapter (collisions murs, etc.)
+        if ((contenuDansGrille(pCible) && (objetALaPosition(pCible)  == null) || objetALaPosition(pCible).peutPermettreDeMonterDescendre())) { // a adapter (collisions murs, etc.)
+            //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
+            //objetALaPosition(pCible)  == null  regarde qu'il n'y ai rien dans la case cible
             // compter le déplacement : 1 deplacement horizontal et vertical max par pas de temps par entité
             switch (d) {
                 case bas:
