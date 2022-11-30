@@ -8,6 +8,7 @@ package modele.plateau;
 import modele.deplacements.Controle4Directions;
 import modele.deplacements.Direction;
 import modele.deplacements.Gravite;
+import modele.deplacements.IA;
 import modele.deplacements.Ordonnanceur;
 
 import java.awt.Point;
@@ -86,18 +87,25 @@ public class Jeu {
         addEntite(hector, 2, 1);
         // smick
         smick = new Bot(this);
-        addEntite(smick, 13, 4);
-        addEntite(smick, 20, 14);
+        Bot smick2 = new Bot(this);
+
+        addEntite(smick, 13, 4);        //TODO
+        addEntite(smick2, 20, 14);       //Ici maybe crer un smick 2 pour avoir une reference differente
 
         // gravité + directions pour Hector
         Gravite g = new Gravite();
         g.addEntiteDynamique(hector);
         ordonnanceur.add(g);
 
-        // gravité + directions pour les smicks
+        // gravité + directions pour les smicks + IA
         Gravite s = new Gravite();
         s.addEntiteDynamique(smick);
         ordonnanceur.add(s);
+
+        IA ia = new IA();
+        ia.addEntiteDynamique(smick);
+        ia.addEntiteDynamique(smick2);
+        ordonnanceur.add(ia);
 
         Controle4Directions.getInstance().addEntiteDynamique(hector);
         ordonnanceur.add(Controle4Directions.getInstance());
@@ -291,7 +299,7 @@ public class Jeu {
                     }
                     break;
             }
-            if (objPosition != null && objPosition.objetPeutEtreRamassable()) {
+            if (objPosition != null && objPosition.objetPeutEtreRamassable() && e instanceof Heros ) {
                 addPoint(objPosition, pCible);
             }
         }
