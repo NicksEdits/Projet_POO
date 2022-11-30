@@ -7,5 +7,5 @@ import java.util.LinkedList;
  * (vérifier "collisions" avec le héros)
  */
 public class Colonne extends RealisateurDeDeplacement {
-    protected boolean realiserDeplacement() { return true; } 
+    protected boolean realiserDeplacement() { return true; } // TODO
 }

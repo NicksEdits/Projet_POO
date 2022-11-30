@@ -177,8 +177,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
                     if (e instanceof Heros) { // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
 
                         tabJLabel[x][y].setIcon(icoHero);
-                        System.out.println(Integer.toString(x) + ", " + Integer.toString(y));
-
                         // si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
                         //BufferedImage bi = getImage("Images/smick.png", 0, 0, 20, 20);
                         //tabJLabel[x][y].getGraphics().drawImage(bi, 0, 0, null);

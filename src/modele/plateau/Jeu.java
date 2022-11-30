@@ -9,7 +9,6 @@ import modele.deplacements.Controle4Directions;
 import modele.deplacements.Direction;
 import modele.deplacements.Gravite;
 import modele.deplacements.Ordonnanceur;
-import modele.deplacements.RealisateurDeDeplacement;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -20,9 +19,8 @@ import java.util.HashMap;
  * (ajouter conditions de victoire, chargement du plateau, etc.)
  */
 public class Jeu {
-    
 
-    
+
     public static final int SIZE_X = 30; // Max 100 pour <du 1920
     public static final int SIZE_Y = 20; // Max 43 pour du 1080
 
@@ -72,14 +70,16 @@ public class Jeu {
         return smick;
     }
 
-    public int getScore(){
+    public int getScore() {
         return this.score;
     }
 
-    public int addpPoint() {
-        this.score += 100 ;
+    public int addPoint(Entite ramasable, Point pCible) {
+        this.score += 100;
+        grilleEntites[pCible.x][pCible.y].remove(ramasable);
         return score;
     }
+
     private void initialisationDesEntites() {
         // hero
         hector = new Heros(this);
@@ -108,12 +108,12 @@ public class Jeu {
         // radis
 
 
-        addEntite(new Ramassable(this,2), 2, 13);
-        addEntite(new Ramassable(this,2), 5, 7);
-        addEntite(new Ramassable(this,2), 10, 13);
-        addEntite(new Ramassable(this,2), 10, 6);
+        addEntite(new Ramassable(this, 2), 2, 13);
+        addEntite(new Ramassable(this, 2), 5, 7);
+        addEntite(new Ramassable(this, 2), 10, 13);
+        addEntite(new Ramassable(this, 2), 10, 6);
 
-        
+
         // murs extérieurs horizontaux
         for (int x = 0; x < SIZE_X; x++) {
             addEntite(new Mur(this), x, 0);
@@ -186,23 +186,23 @@ public class Jeu {
 
         //Colonnes
 
-        addEntite(new Colonne(this,2), 18, 1);
-        addEntite(new Colonne(this,1), 18 , 2);
-        addEntite(new Colonne(this,1), 18 , 3);
-        addEntite(new Colonne(this,1), 18 , 4);
-        addEntite(new Colonne(this,3), 18, 5);     
+        addEntite(new Colonne(this, 2), 18, 1);
+        addEntite(new Colonne(this, 1), 18, 2);
+        addEntite(new Colonne(this, 1), 18, 3);
+        addEntite(new Colonne(this, 1), 18, 4);
+        addEntite(new Colonne(this, 3), 18, 5);
 
-        addEntite(new Colonne(this,2), 4, 8);
-        addEntite(new Colonne(this,1), 4 , 9);
-        addEntite(new Colonne(this,1), 4 , 10);
-        addEntite(new Colonne(this,1), 4 , 11);
-        addEntite(new Colonne(this,3), 4, 12);
+        addEntite(new Colonne(this, 2), 4, 8);
+        addEntite(new Colonne(this, 1), 4, 9);
+        addEntite(new Colonne(this, 1), 4, 10);
+        addEntite(new Colonne(this, 1), 4, 11);
+        addEntite(new Colonne(this, 3), 4, 12);
 
-        addEntite(new Colonne(this,2), 17, 11);
-        addEntite(new Colonne(this,1), 17 , 14);
-        addEntite(new Colonne(this,1), 17 , 13);
-        addEntite(new Colonne(this,1), 17 , 12);
-        addEntite(new Colonne(this,3), 17, 15);
+        addEntite(new Colonne(this, 2), 17, 11);
+        addEntite(new Colonne(this, 1), 17, 14);
+        addEntite(new Colonne(this, 1), 17, 13);
+        addEntite(new Colonne(this, 1), 17, 12);
+        addEntite(new Colonne(this, 3), 17, 15);
 
         //Cables 
         for (int i = 6; i < 15; i++) {
@@ -242,7 +242,6 @@ public class Jeu {
 
     private void addEntite(Entite e, int x, int y) {
 
-
         grilleEntites[x][y].add(e);  //Ici ajouté une liste d'entité
         map.put(e, new Point(x, y));
     }
@@ -268,8 +267,8 @@ public class Jeu {
         Point pCible = calculerPointCible(pCourant, d);     // ex : regarde dans la case ou le joueur veux aller pour voir si c'est possible d'y aller
 
         Entite objPosition = objetALaPosition(pCible);
-        
-        if (contenuDansGrille(pCible) && objPosition  == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
+
+        if (contenuDansGrille(pCible) && objPosition == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
 
             //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
             //objetALaPosition(pCible)  == null  regarde qu'il n'y ai rien dans la case cible
@@ -292,8 +291,8 @@ public class Jeu {
                     }
                     break;
             }
-            if( objPosition != null && objPosition.objetPeutEtreRamassable()) {
-                addpPoint();
+            if (objPosition != null && objPosition.objetPeutEtreRamassable()) {
+                addPoint(objPosition, pCible);
             }
         }
 
