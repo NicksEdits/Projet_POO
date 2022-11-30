@@ -20,7 +20,9 @@ import java.util.HashMap;
  * (ajouter conditions de victoire, chargement du plateau, etc.)
  */
 public class Jeu {
+    
 
+    
     public static final int SIZE_X = 30; // Max 100 pour <du 1920
     public static final int SIZE_Y = 20; // Max 43 pour du 1080
 
@@ -30,6 +32,7 @@ public class Jeu {
 
     private Heros hector;
     private Bot smick;
+    private int score = 10;
 
     private HashMap<Entite, Point> map = new HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private ArrayList<Entite>[][] grilleEntites = new ArrayList[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -69,6 +72,14 @@ public class Jeu {
         return smick;
     }
 
+    public int getScore(){
+        return this.score;
+    }
+
+    public int addpPoint() {
+        this.score += 100 ;
+        return score;
+    }
     private void initialisationDesEntites() {
         // hero
         hector = new Heros(this);
@@ -96,11 +107,13 @@ public class Jeu {
 
         // radis
 
-        addEntite(new Ramassable(this, 2), 2, 13);
-        addEntite(new Ramassable(this, 2), 5, 7);
-        addEntite(new Ramassable(this, 2), 10, 13);
 
+        addEntite(new Ramassable(this,2), 2, 13);
+        addEntite(new Ramassable(this,2), 5, 7);
+        addEntite(new Ramassable(this,2), 10, 13);
+        addEntite(new Ramassable(this,2), 10, 6);
 
+        
         // murs extérieurs horizontaux
         for (int x = 0; x < SIZE_X; x++) {
             addEntite(new Mur(this), x, 0);
@@ -172,21 +185,25 @@ public class Jeu {
         addEntite(new Platforme(this, 1), 17, 10);
 
         //Colonnes
-        addEntite(new Colonne(this, 2), 18, 1);
-        addEntite(new Colonne(this, 1), 18, 2);
-        addEntite(new Colonne(this, 1), 18, 3);
-        addEntite(new Colonne(this, 1), 18, 4);
-        addEntite(new Colonne(this, 3), 18, 5);
-        addEntite(new Colonne(this, 2), 4, 8);
-        addEntite(new Colonne(this, 1), 4, 9);
-        addEntite(new Colonne(this, 1), 4, 10);
-        addEntite(new Colonne(this, 1), 4, 11);
-        addEntite(new Colonne(this, 3), 4, 12);
-        addEntite(new Colonne(this, 2), 17, 11);
-        addEntite(new Colonne(this, 1), 17, 14);
-        addEntite(new Colonne(this, 1), 17, 13);
-        addEntite(new Colonne(this, 1), 17, 12);
-        addEntite(new Colonne(this, 3), 17, 15);
+
+        addEntite(new Colonne(this,2), 18, 1);
+        addEntite(new Colonne(this,1), 18 , 2);
+        addEntite(new Colonne(this,1), 18 , 3);
+        addEntite(new Colonne(this,1), 18 , 4);
+        addEntite(new Colonne(this,3), 18, 5);     
+
+        addEntite(new Colonne(this,2), 4, 8);
+        addEntite(new Colonne(this,1), 4 , 9);
+        addEntite(new Colonne(this,1), 4 , 10);
+        addEntite(new Colonne(this,1), 4 , 11);
+        addEntite(new Colonne(this,3), 4, 12);
+
+        addEntite(new Colonne(this,2), 17, 11);
+        addEntite(new Colonne(this,1), 17 , 14);
+        addEntite(new Colonne(this,1), 17 , 13);
+        addEntite(new Colonne(this,1), 17 , 12);
+        addEntite(new Colonne(this,3), 17, 15);
+
         //Cables 
         for (int i = 6; i < 15; i++) {
             addEntite(new Cable(this), 23, i);
@@ -250,7 +267,10 @@ public class Jeu {
 
         Point pCible = calculerPointCible(pCourant, d);     // ex : regarde dans la case ou le joueur veux aller pour voir si c'est possible d'y aller
 
-        if ((contenuDansGrille(pCible) && (objetALaPosition(pCible) == null) || objetALaPosition(pCible).peutPermettreDeMonterDescendre())) { // a adapter (collisions murs, etc.)
+        Entite objPosition = objetALaPosition(pCible);
+        
+        if (contenuDansGrille(pCible) && objPosition  == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
+
             //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
             //objetALaPosition(pCible)  == null  regarde qu'il n'y ai rien dans la case cible
             // compter le déplacement : 1 deplacement horizontal et vertical max par pas de temps par entité
@@ -271,6 +291,9 @@ public class Jeu {
 
                     }
                     break;
+            }
+            if( objPosition != null && objPosition.objetPeutEtreRamassable()) {
+                addpPoint();
             }
         }
 

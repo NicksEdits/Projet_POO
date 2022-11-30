@@ -9,4 +9,14 @@ public class Ramassable extends EntiteStatique {
     public int getType(){
         return type;
     }
+    @Override
+    public boolean objetPeutEtreRamassable() { return true; }
+    @Override
+    public boolean peutServirDeSupport() { return false; }
+    @Override
+    public boolean peutPermettreDeMonterDescendre() { return false; }
+
+
+
+
 }

@@ -47,6 +47,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private ImageIcon icoBonus;
 
 
+
     private ImageIcon icoPlatforme; // different type de platformes
     private ImageIcon icoPlatforme_vertical;
     private ImageIcon icoPlatforme_avant_colonne;
@@ -57,6 +58,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     private Timer timer;
     private int timeSecond = 10;   //Set ici le temps de jeu de base
+    private JLabel score ;
 
     public VueControleurGyromite(Jeu _jeu) {
         sizeX = jeu.SIZE_X;
@@ -138,7 +140,10 @@ public class VueControleurGyromite extends JFrame implements Observer {
         JLabel timerCounter = new JLabel(Integer.toString(timeSecond));
         toolBar.add(timerCounter, BorderLayout.CENTER);
 
-
+         // Ajout du score
+         score = new JLabel(Integer.toString(jeu.getScore()));
+        toolBar.add(score, BorderLayout.EAST);
+     
         gamePanel.add(toolBar, BorderLayout.NORTH);
         gamePanel.add(grilleJLabels, BorderLayout.CENTER);
         add(gamePanel);
@@ -247,21 +252,21 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 }
             }
         }
-
+        score.setText(Integer.toString(jeu.getScore()));
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
         mettreAJourAffichage();
-        /*
+        
         SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         mettreAJourAffichage();
                     }
                 }); 
-        */
+        
 
     }
 
