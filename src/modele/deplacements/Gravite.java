@@ -11,7 +11,7 @@ public class Gravite extends RealisateurDeDeplacement {
         for (EntiteDynamique e : lstEntitesDynamiques) {
             Entite eBas = e.regarderDansLaDirection(Direction.bas);
             //Permet de voir ce qui ce trouve sous le joueur
-            if (eBas == null || (eBas != null && !eBas.peutServirDeSupport())) {
+            if (eBas == null || (eBas != null && !eBas.peutServirDeSupport() && eBas.peutPermettreDeMonterDescendre() == false)) {
                 if (e.avancerDirectionChoisie(Direction.bas))
                     ret = true;
             }

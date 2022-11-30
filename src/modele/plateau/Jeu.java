@@ -209,7 +209,7 @@ public class Jeu {
     }
 
     private void addEntite(Entite e, int x, int y) {
-        grilleEntites[x][y] = e;
+        grilleEntites[x][y] = e;  //Ici ajouté une liste d'entité
         map.put(e, new Point(x, y));
     }
     
