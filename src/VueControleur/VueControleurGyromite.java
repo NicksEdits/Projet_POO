@@ -195,7 +195,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
                     tabJLabel[x][y].setIcon(icoBombe_explosé); // Bombe explosé
                     break;
                     case 6 : 
-                    tabJLabel[x][y].setIcon( ); // platforme apres la colonne
+                    tabJLabel[x][y].setIcon( ); 
                     break;*/
                     }
                 }
@@ -245,14 +245,14 @@ public class VueControleurGyromite extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         mettreAJourAffichage();
-        /*
+        
         SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         mettreAJourAffichage();
                     }
                 }); 
-        */
+        
 
     }
 

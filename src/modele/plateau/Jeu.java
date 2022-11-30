@@ -88,9 +88,10 @@ public class Jeu {
         addEntite(new Ramassable(this,2), 2, 13);
         addEntite(new Ramassable(this,2), 5, 7);
         addEntite(new Ramassable(this,2), 10, 13);
+        addEntite(new Ramassable(this,2), 10, 6);
 
 
-
+        
         // murs extérieurs horizontaux
         for (int x = 0; x < SIZE_X; x++) {
             addEntite(new Mur(this), x, 0);
@@ -162,16 +163,19 @@ public class Jeu {
         addEntite(new Platforme(this,1), 17, 10);
 
         //Colonnes
+        
         addEntite(new Colonne(this,2), 18, 1);
         addEntite(new Colonne(this,1), 18 , 2);
         addEntite(new Colonne(this,1), 18 , 3);
         addEntite(new Colonne(this,1), 18 , 4);
         addEntite(new Colonne(this,3), 18, 5);     
+
         addEntite(new Colonne(this,2), 4, 8);
         addEntite(new Colonne(this,1), 4 , 9);
         addEntite(new Colonne(this,1), 4 , 10);
         addEntite(new Colonne(this,1), 4 , 11);
         addEntite(new Colonne(this,3), 4, 12);
+
         addEntite(new Colonne(this,2), 17, 11);
         addEntite(new Colonne(this,1), 17 , 14);
         addEntite(new Colonne(this,1), 17 , 13);
