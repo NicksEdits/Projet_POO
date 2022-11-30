@@ -18,7 +18,9 @@ import java.util.HashMap;
  * (ajouter conditions de victoire, chargement du plateau, etc.)
  */
 public class Jeu {
+    
 
+    
     public static final int SIZE_X = 30; // Max 100 pour <du 1920
     public static final int SIZE_Y = 20; // Max 43 pour du 1080
 
@@ -28,6 +30,7 @@ public class Jeu {
 
     private Heros hector;
     private Bot smick;
+    private int score = 10;
 
     private HashMap<Entite, Point> map = new  HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private Entite[][] grilleEntites = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -56,6 +59,14 @@ public class Jeu {
     }
     public Bot getSmick() {
         return smick;
+    }
+    public int getScore(){
+        return this.score;
+    }
+
+    public int addpPoint() {
+        this.score += 100 ;
+        return score;
     }
     
     private void initialisationDesEntites() {
@@ -235,8 +246,9 @@ public class Jeu {
         Point pCourant = map.get(e);
         
         Point pCible = calculerPointCible(pCourant, d);     // ex : regarde dans la case ou le joueur veux aller pour voir si c'est possible d'y aller
+        Entite objPosition = objetALaPosition(pCible);
         
-        if ((contenuDansGrille(pCible) && (objetALaPosition(pCible)  == null) || objetALaPosition(pCible).peutPermettreDeMonterDescendre())) { // a adapter (collisions murs, etc.)
+        if (contenuDansGrille(pCible) && objPosition  == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
             //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
             //objetALaPosition(pCible)  == null  regarde qu'il n'y ai rien dans la case cible
             // compter le déplacement : 1 deplacement horizontal et vertical max par pas de temps par entité
@@ -257,6 +269,9 @@ public class Jeu {
 
                     }
                     break;
+            }
+            if( objPosition != null && objPosition.objetPeutEtreRamassable()) {
+                addpPoint();
             }
         }
 
