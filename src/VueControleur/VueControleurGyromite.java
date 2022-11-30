@@ -20,18 +20,18 @@ import modele.deplacements.Direction;
 import modele.plateau.*;
 
 
-/** Cette classe a deux fonctions :
- *  (1) Vue : proposer une représentation graphique de l'application (cases graphiques, etc.)
- *  (2) Controleur : écouter les évènements clavier et déclencher le traitement adapté sur le modèle (flèches direction Pacman, etc.))
- *
+/**
+ * Cette classe a deux fonctions :
+ * (1) Vue : proposer une représentation graphique de l'application (cases graphiques, etc.)
+ * (2) Controleur : écouter les évènements clavier et déclencher le traitement adapté sur le modèle (flèches direction Pacman, etc.))
  */
 public class VueControleurGyromite extends JFrame implements Observer {
     private Jeu jeu; // référence sur une classe de modèle : permet d'accéder aux données du modèle pour le rafraichissement, permet de communiquer les actions clavier (ou souris)
 
     private int sizeX; // taille de la grille affichée
     private int sizeY;
-    private int width; 
-    private int height; 
+    private int width;
+    private int height;
 
     // icones affichées dans la grille
     private ImageIcon icoHero;
@@ -73,11 +73,19 @@ public class VueControleurGyromite extends JFrame implements Observer {
         addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
             @Override
             public void keyPressed(KeyEvent e) {
-                switch(e.getKeyCode()) {  // on regarde quelle touche a été pressée
-                    case KeyEvent.VK_LEFT : Controle4Directions.getInstance().setDirectionCourante(Direction.gauche); break;
-                    case KeyEvent.VK_RIGHT : Controle4Directions.getInstance().setDirectionCourante(Direction.droite); break;
-                    case KeyEvent.VK_DOWN : Controle4Directions.getInstance().setDirectionCourante(Direction.bas); break;
-                    case KeyEvent.VK_UP : Controle4Directions.getInstance().setDirectionCourante(Direction.haut); break;
+                switch (e.getKeyCode()) {  // on regarde quelle touche a été pressée
+                    case KeyEvent.VK_LEFT:
+                        Controle4Directions.getInstance().setDirectionCourante(Direction.gauche);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        Controle4Directions.getInstance().setDirectionCourante(Direction.droite);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        Controle4Directions.getInstance().setDirectionCourante(Direction.bas);
+                        break;
+                    case KeyEvent.VK_UP:
+                        Controle4Directions.getInstance().setDirectionCourante(Direction.haut);
+                        break;
                 }
             }
         });
@@ -88,18 +96,18 @@ public class VueControleurGyromite extends JFrame implements Observer {
         icoHero = chargerIcone("Images/player_ca.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
         icoBot = chargerIcone("Images/smick_ca.png", 0, 0, 40, 40);//chargerIcone("Images/Pacman.png");
         icoVide = chargerIcone("Images/Mur.png");
-        icoColonne = chargerIcone("Images/tileset.png", 17,45,15,15);
-        icoColonne_haut = chargerIcone("Images/tileset.png", 1,49,15,15);
-        icoColonne_bas = chargerIcone("Images/tileset.png", 33,49,15,15);
-        icoBombe = chargerIcone("Images/bomb_ca.png", 10,10,45,45);
+        icoColonne = chargerIcone("Images/tileset.png", 17, 45, 15, 15);
+        icoColonne_haut = chargerIcone("Images/tileset.png", 1, 49, 15, 15);
+        icoColonne_bas = chargerIcone("Images/tileset.png", 33, 49, 15, 15);
+        icoBombe = chargerIcone("Images/bomb_ca.png", 10, 10, 45, 45);
         icoMur = chargerIcone("Images/Mur.png");
         icoPlatforme = chargerIcone("Images/tileset.png", 0, 0, 15, 15);
         icoPlatforme_vertical = chargerIcone("Images/tileset.png", 0, 15, 15, 15);
         icoPlatforme_avant_colonne = chargerIcone("Images/tileset.png", 15, 15, 15, 15);
         icoPlatforme_apres_colonne = chargerIcone("Images/tileset.png", 34, 15, 15, 15);
-        icoCable = chargerIcone("Images/tileset.png",18,0,15,15 );
-        icoRadis = chargerIcone("Images/smick_ca.png", 35,130,30,30);
-        icoBonus = chargerIcone("Images/bomb_ca.png", 10,10,45,45);
+        icoCable = chargerIcone("Images/tileset.png", 18, 0, 15, 15);
+        icoRadis = chargerIcone("Images/smick_ca.png", 35, 130, 30, 30);
+        icoBonus = chargerIcone("Images/bomb_ca.png", 10, 10, 45, 45);
 
     }
 
@@ -142,7 +150,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
             public void actionPerformed(ActionEvent e) {
                 timeSecond--;
                 timerCounter.setText(Integer.toString(timeSecond));
-                if(timeSecond == 0){
+                if (timeSecond == 0) {
                     timer.stop();
                 }
             }
@@ -158,86 +166,87 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
-                if (jeu.getGrille()[x][y] instanceof Heros) { // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
 
-                    tabJLabel[x][y].setIcon(icoHero);
+                for (Entite e : jeu.getGrille()[x][y]) {
 
-                    // si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
-                    //BufferedImage bi = getImage("Images/smick.png", 0, 0, 20, 20);
-                    //tabJLabel[x][y].getGraphics().drawImage(bi, 0, 0, null);
+                    if (e instanceof Heros) { // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
 
-                } else if (jeu.getGrille()[x][y] instanceof Bot) {
-                    tabJLabel[x][y].setIcon(icoBot);
-                }
-                
-                else if (jeu.getGrille()[x][y] instanceof Mur) {
-                    tabJLabel[x][y].setIcon(icoMur);
-                } 
-                
-                else if (jeu.getGrille()[x][y] instanceof Ramassable) {
-                    Ramassable plat = (Ramassable)jeu.getGrille()[x][y] ;
-                    switch(plat.getType()){
+                        tabJLabel[x][y].setIcon(icoHero);
+                        System.out.println(Integer.toString(x) + ", " + Integer.toString(y));
 
-                    case 1 : 
-                    tabJLabel[x][y].setIcon(icoBombe); // Bombe 
-                    break;
-                    case 2 : 
-                    tabJLabel[x][y].setIcon(icoRadis); // Radis 
-                    break;
+                        // si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
+                        //BufferedImage bi = getImage("Images/smick.png", 0, 0, 20, 20);
+                        //tabJLabel[x][y].getGraphics().drawImage(bi, 0, 0, null);
 
-                    case 3 : 
-                    tabJLabel[x][y].setIcon(icoBonus); // Bombe 
-                    break; 
-                   /* case 4 : 
-                    tabJLabel[x][y].setIcon(icoBombeEnclenché); // Bombe encleché
-                    break;
-                    case 5 : 
-                    tabJLabel[x][y].setIcon(icoBombe_explosé); // Bombe explosé
-                    break;
-                    case 6 : 
-                    tabJLabel[x][y].setIcon( ); // platforme apres la colonne
-                    break;*/
+                    } else if (e instanceof Bot) {
+                        tabJLabel[x][y].setIcon(icoBot);
+                    } else if (e instanceof Mur) {
+                        tabJLabel[x][y].setIcon(icoMur);
+                    } else if (e instanceof Ramassable) {
+                        Ramassable plat = (Ramassable) e;
+                        switch (plat.getType()) {
+
+                            case 1:
+                                tabJLabel[x][y].setIcon(icoBombe); // Bombe
+                                break;
+                            case 2:
+                                tabJLabel[x][y].setIcon(icoRadis); // Radis
+                                break;
+
+                            case 3:
+                                tabJLabel[x][y].setIcon(icoBonus); // Bombe
+                                break;
+                       /* case 4 :
+                        tabJLabel[x][y].setIcon(icoBombeEnclenché); // Bombe encleché
+                        break;
+                        case 5 :
+                        tabJLabel[x][y].setIcon(icoBombe_explosé); // Bombe explosé
+                        break;
+                        case 6 :
+                        tabJLabel[x][y].setIcon( ); // platforme apres la colonne
+                        break;*/
+                        }
+                    } else if (e instanceof Cable) {
+                        tabJLabel[x][y].setIcon(icoCable);
+                    } else if (e instanceof Colonne) {
+                        Colonne col = (Colonne) e;
+                        switch (col.getType()) {
+                            case 1: // simple colonne sans extrémités
+                                tabJLabel[x][y].setIcon(icoColonne);
+                                break;
+                            case 2: // extremité du haut de la colonne
+                                tabJLabel[x][y].setIcon(icoColonne_haut);
+                                break;
+                            case 3: // extremité du bas de la colonne
+                                tabJLabel[x][y].setIcon(icoColonne_bas);
+                        }
+                    } else if (e instanceof Platforme) {
+                        Platforme plat = (Platforme) e;
+                        switch (plat.getType()) {
+
+                            case 1:
+                                tabJLabel[x][y].setIcon(icoPlatforme); // platforme horizontal
+                                break;
+                            case 2:
+                                tabJLabel[x][y].setIcon(icoPlatforme_vertical); // platforme verticale
+                                break;
+                            case 3:
+                                tabJLabel[x][y].setIcon(icoPlatforme_avant_colonne); // platforme avant la colonne
+                                break;
+                            case 4:
+                                tabJLabel[x][y].setIcon(icoPlatforme_apres_colonne); // platforme apres la colonne
+                                break;
+                        }
+                    } else {
+                        tabJLabel[x][y].setIcon(icoVide);
                     }
                 }
-                else if (jeu.getGrille()[x][y] instanceof Cable) {
-                    tabJLabel[x][y].setIcon(icoCable); 
-                }
-                else if (jeu.getGrille()[x][y] instanceof Colonne) {
-                    Colonne col = (Colonne)jeu.getGrille()[x][y] ;
-                   switch(col.getType()){
-                    case 1 : // simple colonne sans extrémités
-                    tabJLabel[x][y].setIcon(icoColonne); 
-                    break;
-                    case 2 : // extremité du haut de la colonne
-                    tabJLabel[x][y].setIcon(icoColonne_haut); 
-                    break;
-                    case 3 : // extremité du bas de la colonne
-                    tabJLabel[x][y].setIcon(icoColonne_bas);
-                   }
-                }
-                else if (jeu.getGrille()[x][y] instanceof Platforme) {
-                    Platforme plat = (Platforme)jeu.getGrille()[x][y] ;
-                    switch(plat.getType()){
 
-                    case 1 : 
-                    tabJLabel[x][y].setIcon(icoPlatforme); // platforme horizontal
-                    break;
-                    case 2 : 
-                    tabJLabel[x][y].setIcon(icoPlatforme_vertical); // platforme verticale
-                    break;
-                    case 3 : 
-                    tabJLabel[x][y].setIcon(icoPlatforme_avant_colonne); // platforme avant la colonne
-                    break;
-                    case 4 : 
-                    tabJLabel[x][y].setIcon(icoPlatforme_apres_colonne); // platforme apres la colonne
-                    break;
-                    }
-                }else {
+                if (jeu.getGrille()[x][y].isEmpty()) {
                     tabJLabel[x][y].setIcon(icoVide);
                 }
             }
         }
-
 
 
     }

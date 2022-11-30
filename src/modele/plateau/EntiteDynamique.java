@@ -2,6 +2,8 @@ package modele.plateau;
 
 import modele.deplacements.Direction;
 
+import java.util.ArrayList;
+
 /**
  * Entités amenées à bouger (colonnes, ennemis)
  */
