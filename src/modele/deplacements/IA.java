@@ -16,6 +16,14 @@ public class IA extends RealisateurDeDeplacement {
         if (directionCourante != null) {
             for (EntiteDynamique e : lstEntitesDynamiques) {
 
+                Entite eCible = e.regarderDansLaDirection(directionCourante);
+
+
+                if (eCible != null && (eCible.peutMourir() || eCible.peutTuer())) {
+                    e.avancerDirectionChoisie(directionCourante);
+                    ret = true;
+                }
+
 
                 switch (directionCourante) {
                     case gauche:

@@ -90,7 +90,7 @@ public class Jeu {
         Bot smick2 = new Bot(this);
 
         addEntite(smick, 13, 4);        //TODO
-        addEntite(smick2, 20, 14);       //Ici maybe crer un smick 2 pour avoir une reference differente
+        addEntite(smick2, 20, 14);       //Ici  creer un smick 2 pour avoir une reference differente
 
         // gravité + directions pour Hector
         Gravite g = new Gravite();
@@ -280,6 +280,12 @@ public class Jeu {
 
         Entite objPosition = objetALaPosition(pCible);
 
+
+        if(objPosition != null && (objPosition.peutMourir() || objPosition.peutTuer())){
+            this.gameOver();
+            
+        }
+
         if (contenuDansGrille(pCible) && objPosition == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
 
             //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
@@ -367,4 +373,12 @@ public class Jeu {
     public Ordonnanceur getOrdonnanceur() {
         return ordonnanceur;
     }
+
+
+    public void gameOver(){
+        System.out.println("Game over");
+    }
+
+
+
 }

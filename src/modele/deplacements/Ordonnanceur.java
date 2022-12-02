@@ -11,6 +11,8 @@ public class Ordonnanceur extends Observable implements Runnable {
     private Jeu jeu;
     private ArrayList<RealisateurDeDeplacement> lstDeplacements = new ArrayList<RealisateurDeDeplacement>();
     private long pause;
+
+    private boolean run = true;
     public void add(RealisateurDeDeplacement deplacement) {
         lstDeplacements.add(deplacement);
     }
@@ -28,7 +30,7 @@ public class Ordonnanceur extends Observable implements Runnable {
     public void run() {
         boolean update = false;
 
-        while(true) {
+        while(run) {
             jeu.resetCmptDepl();
             for (RealisateurDeDeplacement d : lstDeplacements) {
                 if (d.realiserDeplacement())
@@ -49,5 +51,9 @@ public class Ordonnanceur extends Observable implements Runnable {
             }
         }
 
+    }
+
+    public void gameOver(){
+        this.run = false;
     }
 }

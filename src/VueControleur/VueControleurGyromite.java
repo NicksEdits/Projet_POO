@@ -305,4 +305,19 @@ public class VueControleurGyromite extends JFrame implements Observer {
         return bi;
     }
 
+
+    public void gameOver(){
+
+        for (int y = 0; y < sizeY; y++) {
+            for (int x = 0; x < sizeX; x++) {
+                tabJLabel[x][y].setIcon(icoVide);
+
+            }
+        }
+
+        JLabel gameOverText = new JLabel("Game over ! press space to restart");
+        this.add(gameOverText);
+
+    }
+
 }
