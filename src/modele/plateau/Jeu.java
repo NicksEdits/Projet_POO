@@ -100,12 +100,16 @@ public class Jeu {
         // gravité + directions pour les smicks + IA
         Gravite s = new Gravite();
         s.addEntiteDynamique(smick);
+        s.addEntiteDynamique(smick2);
         ordonnanceur.add(s);
 
         IA ia = new IA();
+        IA ia2 = new IA();
         ia.addEntiteDynamique(smick);
-        ia.addEntiteDynamique(smick2);
+        ia2.addEntiteDynamique(smick2);
         ordonnanceur.add(ia);
+        ordonnanceur.add(ia2);
+
 
         Controle4Directions.getInstance().addEntiteDynamique(hector);
         ordonnanceur.add(Controle4Directions.getInstance());
