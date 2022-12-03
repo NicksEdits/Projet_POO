@@ -15,8 +15,4 @@ public class Ramassable extends EntiteStatique {
     public boolean peutServirDeSupport() { return false; }
     @Override
     public boolean peutPermettreDeMonterDescendre() { return false; }
-
-
-
-
 }

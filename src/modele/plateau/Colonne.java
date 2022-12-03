@@ -2,6 +2,7 @@ package modele.plateau;
 
 public class Colonne extends EntiteDynamique {
     private int type;
+    private Colonne suivant;
 
     public Colonne(Jeu _jeu,int type) { super(_jeu); 
         this.type = type;}
@@ -18,5 +19,9 @@ public class Colonne extends EntiteDynamique {
     public boolean peutMourir() {return false;}
 
     public  boolean peutTuer(){ return false;} //Dans les fait elle peut tuer, mais le joueur ne meure pas aui cobtact horizontals avec les colonnes
+
+
+
+
 
 }

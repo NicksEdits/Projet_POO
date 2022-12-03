@@ -5,11 +5,7 @@
  */
 package modele.plateau;
 
-import modele.deplacements.Controle4Directions;
-import modele.deplacements.Direction;
-import modele.deplacements.Gravite;
-import modele.deplacements.IA;
-import modele.deplacements.Ordonnanceur;
+import modele.deplacements.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -31,7 +27,7 @@ public class Jeu {
 
     private Heros hector;
     private Bot smick;
-    private int score = 10;
+    private int score = 0;
 
     private HashMap<Entite, Point> map = new HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private ArrayList<Entite>[][] grilleEntites = new ArrayList[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -194,27 +190,80 @@ public class Jeu {
         addEntite(new Platforme(this, 4), 18, 15);
         addEntite(new Platforme(this, 2), 14, 17);
         addEntite(new Platforme(this, 2), 14, 16);
-        addEntite(new Platforme(this, 1), 17, 10);
 
         //Colonnes
+        ColonneDeplacement Cdep1 = new ColonneDeplacement();
+        ColonneDeplacement Cdep2 = new ColonneDeplacement();
+        ColonneDeplacement Cdep3 = new ColonneDeplacement();
 
-        addEntite(new Colonne(this, 2), 18, 1);
-        addEntite(new Colonne(this, 1), 18, 2);
-        addEntite(new Colonne(this, 1), 18, 3);
-        addEntite(new Colonne(this, 1), 18, 4);
-        addEntite(new Colonne(this, 3), 18, 5);
+        Colonne c1 = new Colonne(this, 2);
+        Cdep1.addColonne(c1);
+        addEntite(c1, 18, 1);
 
-        addEntite(new Colonne(this, 2), 4, 8);
-        addEntite(new Colonne(this, 1), 4, 9);
-        addEntite(new Colonne(this, 1), 4, 10);
-        addEntite(new Colonne(this, 1), 4, 11);
-        addEntite(new Colonne(this, 3), 4, 12);
+        Colonne c2 = new Colonne(this, 1);
+        Cdep1.addColonne(c2);
+        addEntite(c2, 18, 2);
 
-        addEntite(new Colonne(this, 2), 17, 11);
-        addEntite(new Colonne(this, 1), 17, 14);
-        addEntite(new Colonne(this, 1), 17, 13);
-        addEntite(new Colonne(this, 1), 17, 12);
-        addEntite(new Colonne(this, 3), 17, 15);
+        Colonne c3 = new Colonne(this, 1);
+        Cdep1.addColonne(c3);
+        addEntite(c3, 18, 3);
+
+        Colonne c4 = new Colonne(this, 1);
+        Cdep1.addColonne(c4);
+        addEntite(c4, 18, 4);
+
+        Colonne c5 = new Colonne(this, 3);
+        Cdep1.addColonne(c5);
+        addEntite(c5, 18, 5);
+
+        ordonnanceur.add(Cdep1);
+
+        Colonne c6 = new Colonne(this, 2);
+        Cdep2.addColonne(c6);
+        addEntite(c6, 4, 8);
+
+
+        Colonne c7 = new Colonne(this, 1);
+        Cdep2.addColonne(c7);
+        addEntite(c7, 4, 9);
+
+
+        Colonne c8 = new Colonne(this, 1);
+        Cdep2.addColonne(c8);
+        addEntite(c8, 4, 10);
+
+
+        Colonne c9 = new Colonne(this, 1);
+        Cdep2.addColonne(c9);
+        addEntite(c9, 4, 11);
+
+        Colonne c10 = new Colonne(this, 3);
+        Cdep2.addColonne(c10);
+        addEntite(c10, 4, 12);
+
+        ordonnanceur.add(Cdep2);
+
+        Colonne c11 = new Colonne(this, 2);
+        Cdep3.addColonne(c11);
+        addEntite(c11, 17, 11);
+
+        Colonne c12 = new Colonne(this, 1);
+        Cdep3.addColonne(c12);
+        addEntite(c12, 17, 12);
+
+        Colonne c13 = new Colonne(this, 1);
+        Cdep3.addColonne(c13);
+        addEntite(c13, 17, 13);
+
+        Colonne c14 = new Colonne(this, 1);
+        Cdep3.addColonne(c14);
+        addEntite(c14, 17, 14);
+
+        Colonne c15 = new Colonne(this, 3);
+        Cdep3.addColonne(c15);
+        addEntite(c15, 17, 15);
+
+        ordonnanceur.add(Cdep3);
 
         //Cables 
         for (int i = 6; i < 15; i++) {
@@ -281,7 +330,7 @@ public class Jeu {
         Entite objPosition = objetALaPosition(pCible);
 
 
-        if(objPosition != null && (objPosition.peutMourir() || objPosition.peutTuer())){
+        if(objPosition != null && (objPosition.peutMourir() || (objPosition.peutTuer() &&  e.peutMourir()))){
             this.gameOver();
             
         }
