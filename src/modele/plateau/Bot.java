@@ -16,7 +16,8 @@ public class Bot extends EntiteDynamique {
     public Bot(Jeu _jeu) {
         super(_jeu);
     }
-
+    
+    public  int getType(){return 0;}
     public boolean peutEtreEcrase() { return true; }
     public boolean peutServirDeSupport() { return true; }
     public boolean peutPermettreDeMonterDescendre() { return false; }

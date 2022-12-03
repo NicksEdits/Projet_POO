@@ -11,6 +11,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import VueControleur.VueControleurGyromite;
+
 /**
  * Actuellement, cette classe gère les postions
  * (ajouter conditions de victoire, chargement du plateau, etc.)
@@ -28,6 +30,9 @@ public class Jeu {
     private Heros hector;
     private Bot smick;
     private int score = 0;
+    private int bombes = 4;
+    private boolean b = false;
+    
 
     private HashMap<Entite, Point> map = new HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private ArrayList<Entite>[][] grilleEntites = new ArrayList[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -70,17 +75,25 @@ public class Jeu {
     public int getScore() {
         return this.score;
     }
+    public int getBombe(){
+        
+        return this.bombes;
+    }
 
     public int addPoint(Entite ramasable, Point pCible) {
         this.score += 100;
         grilleEntites[pCible.x][pCible.y].remove(ramasable);
+        if(bombes == 1){
+            this.sucess();
+        }
+       
         return score;
     }
 
     private void initialisationDesEntites() {
         // hero
         hector = new Heros(this);
-        addEntite(hector, 2, 1);
+        addEntite(hector, 2, 16);
         // smick
         smick = new Bot(this);
         Bot smick2 = new Bot(this);
@@ -112,15 +125,14 @@ public class Jeu {
 
         // bombes 
         addEntite(new Ramassable(this, 1), 7, 17);
-
+        addEntite(new Ramassable(this, 1), 2, 13);
+        addEntite(new Ramassable(this, 1), 2, 7);
+        addEntite(new Ramassable(this, 1), 10, 13);
         // radis
 
 
-        addEntite(new Ramassable(this, 2), 2, 13);
-        addEntite(new Ramassable(this, 2), 5, 7);
-        addEntite(new Ramassable(this, 2), 10, 13);
-        addEntite(new Ramassable(this, 2), 10, 6);
-
+        addEntite(new Ramassable(this, 2), 14, 4);
+        addEntite(new Ramassable(this, 2), 24, 8);
 
         // murs extérieurs horizontaux
         for (int x = 0; x < SIZE_X; x++) {
@@ -151,7 +163,7 @@ public class Jeu {
         for (int i = 18; i < 23; i++) {
             addEntite(new Platforme(this, 1), i, 11);
         }
-        for (int i = 1; i < 14; i++) {
+        for (int i = 1; i < 13; i++) {
             addEntite(new Platforme(this, 1), i, 14);
         }
         for (int i = 6; i < 11; i++) {
@@ -278,6 +290,14 @@ public class Jeu {
             addEntite(new Cable(this), 8, i);
 
         }
+        for (int i = 9; i < 14; i++) {
+            addEntite(new Cable(this), 5, i);
+
+        }
+        for (int i = 9; i < 14; i++) {
+            addEntite(new Cable(this), 3, i);
+
+        }
         for (int i = 4; i < 11; i++) {
             addEntite(new Cable(this), 9, i);
 
@@ -294,6 +314,7 @@ public class Jeu {
             addEntite(new Cable(this), 16, i);
 
         }
+        
     }
 
     /**
@@ -305,6 +326,7 @@ public class Jeu {
 
         grilleEntites[x][y].add(e);  //Ici ajouté une liste d'entité
         map.put(e, new Point(x, y));
+        
     }
 
     /**
@@ -331,9 +353,12 @@ public class Jeu {
 
 
         if(objPosition != null && (objPosition.peutMourir() || (objPosition.peutTuer() &&  e.peutMourir()))){
-            this.gameOver();
+            boolean b =false;
+            this.gameOver(b);
             
         }
+        
+        
 
         if (contenuDansGrille(pCible) && objPosition == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
 
@@ -359,7 +384,15 @@ public class Jeu {
                     break;
             }
             if (objPosition != null && objPosition.objetPeutEtreRamassable() && e instanceof Heros ) {
-                addPoint(objPosition, pCible);
+                                addPoint(objPosition, pCible);
+                                int ty =  objPosition.getType();
+                                if(ty ==1){
+                                    bombes-=1;
+                                }
+                             
+
+
+                                ;
             }
         }
 
@@ -422,10 +455,17 @@ public class Jeu {
     public Ordonnanceur getOrdonnanceur() {
         return ordonnanceur;
     }
+    public void sucess(){
+        System.out.println("Victory !!");
+    }
+    public boolean getkill(){
+        return this.b;
+    }
 
-
-    public void gameOver(){
+    public boolean gameOver(boolean b){
         System.out.println("Game over");
+        this.b = true;
+        return this.b;
     }
 
 

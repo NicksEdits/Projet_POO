@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener; 
 
 import modele.deplacements.Controle4Directions;
 import modele.deplacements.Direction;
@@ -59,6 +61,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private Timer timer;
     private int timeSecond = 300;   //Set ici le temps de jeu de base
     private JLabel score ;
+    private JLabel nbbombes;
+    private JLabel WinOrLose;
 
     public VueControleurGyromite(Jeu _jeu) {
         sizeX = jeu.SIZE_X;
@@ -92,7 +96,13 @@ public class VueControleurGyromite extends JFrame implements Observer {
             }
         });
     }
-
+   
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode()==KeyEvent.VK_SPACE){
+            WinOrLose.setText("Touche pressée");
+       }
+       
+      }  
 
     private void chargerLesIcones() {
         icoHero = chargerIcone("Images/player_ca.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
@@ -111,6 +121,9 @@ public class VueControleurGyromite extends JFrame implements Observer {
         icoRadis = chargerIcone("Images/smick_ca.png", 35, 130, 30, 30);
         icoBonus = chargerIcone("Images/bomb_ca.png", 10, 10, 45, 45);
 
+    }
+    public int getTime(){
+        return timeSecond;
     }
 
     private void placerLesComposantsGraphiques() {
@@ -137,13 +150,18 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
         //Ajout du timer sur la pannel
         JComponent toolBar = new JPanel(new BorderLayout());
-        JLabel timerCounter = new JLabel(Integer.toString(timeSecond));
-        toolBar.add(timerCounter, BorderLayout.CENTER);
+        JLabel timerCounter = new JLabel("Time left : " +Integer.toString(timeSecond));
+        toolBar.add(timerCounter, BorderLayout.EAST);
+
+        WinOrLose = new JLabel("");
+        toolBar.add(WinOrLose, BorderLayout.NORTH);
 
          // Ajout du score
-         score = new JLabel(Integer.toString(jeu.getScore()));
-        toolBar.add(score, BorderLayout.EAST);
-     
+         score = new JLabel("Score : " +Integer.toString(jeu.getScore()));
+        toolBar.add(score, BorderLayout.PAGE_END);
+        
+        nbbombes = new JLabel("Bombes Left :" + Integer.toString(jeu.getBombe()));
+        toolBar.add(nbbombes, BorderLayout.CENTER); 
         gamePanel.add(toolBar, BorderLayout.NORTH);
         gamePanel.add(grilleJLabels, BorderLayout.CENTER);
         add(gamePanel);
@@ -154,14 +172,16 @@ public class VueControleurGyromite extends JFrame implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeSecond--;
-                timerCounter.setText(Integer.toString(timeSecond));
+                timerCounter.setText("Time left : " +Integer.toString(timeSecond));
                 if (timeSecond == 0) {
                     timer.stop();
-                    jeu.gameOver();
+                    gameOver(true);
                 }
             }
         });
         timer.start();
+      
+       
     }
 
 
@@ -248,10 +268,30 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
                 if (jeu.getGrille()[x][y].isEmpty()) {
                     tabJLabel[x][y].setIcon(icoVide);
-                }
+                } 
+              
             }
+            int b = jeu.getBombe();
+            if(b == 0){ timer.stop(); sucess();
+            }
+           
         }
-        score.setText(Integer.toString(jeu.getScore()));
+        if (getTime() == 0) {
+            timer.stop();
+            gameOver(true);
+
+        } else if (jeu.getkill()){
+            gameOver(false);
+            timer.stop();
+            
+        }
+        score.setText("Score : " +Integer.toString(jeu.getScore()));
+
+        nbbombes.setText("Bombes left : " + Integer.toString(jeu.getBombe()));
+        
+
+        
+
 
     }
 
@@ -307,7 +347,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
     }
 
 
-    public void gameOver(){
+    public void gameOver(boolean WinorLose){
 
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
@@ -315,9 +355,30 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
             }
         }
+        timer.stop();
+        jeu.resetCmptDepl();
+        if (WinorLose){
+            WinOrLose.setText("Time exeded .. Game over ! Press Space to restart");
+        } else WinOrLose.setText("You're dead.. Game over ! Press Space to restart");
 
-        JLabel gameOverText = new JLabel("Game over ! press space to restart");
-        this.add(gameOverText);
+       /*  JLabel gameOverText = new JLabel("Game over ! press space to restart");
+        this.add(gameOverText);*/
+
+        
+
+    }
+    public void sucess(){
+
+        for (int y = 0; y < sizeY; y++) {
+            for (int x = 0; x < sizeX; x++) {
+                tabJLabel[x][y].setIcon(icoVide);
+
+            }
+        }
+        jeu.resetCmptDepl();
+        WinOrLose.setText("Victory you win ! Press Space to restart ");
+       /*  JLabel sucessText = new JLabel("Victory ! presse space to restart");
+        this.add(sucessText); */
 
     }
 

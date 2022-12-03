@@ -12,6 +12,7 @@ public class Heros extends EntiteDynamique {
     public Heros(Jeu _jeu) {
         super(_jeu);
     }
+    public  int getType(){return 0;}
 
     public boolean peutEtreEcrase() { return true; }
     public boolean peutServirDeSupport() { return true; }
