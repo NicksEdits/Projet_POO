@@ -2,6 +2,9 @@
 import VueControleur.VueControleurGyromite;
 import modele.plateau.Jeu;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,4 +23,7 @@ public class Main {
         vc.setVisible(true);
         jeu.start(300);
     }
-}
+   
+        
+    }
+

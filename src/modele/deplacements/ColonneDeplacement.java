@@ -33,7 +33,7 @@ public class ColonneDeplacement extends RealisateurDeDeplacement {
 
             Entite eCible = this.colonneEntière.getFirst().regarderDansLaDirection(directionCourante);
 
-            if(eCible != null && !eCible.peutMourir()){
+            if(eCible != null && !eCible.peutMourir() ){
                 this.directionCourante = Direction.bas;
             }else{
                 for(int i = 0; i < colonneEntière.size(); i++){
@@ -55,8 +55,6 @@ public class ColonneDeplacement extends RealisateurDeDeplacement {
                     ret = true;
                 }
             }
-
-
         }
 
         return true; }

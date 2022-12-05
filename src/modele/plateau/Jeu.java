@@ -34,7 +34,7 @@ public class Jeu {
     private boolean b = false;
     
 
-    private HashMap<Entite, Point> map = new HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
+    public HashMap<Entite, Point> map = new HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private ArrayList<Entite>[][] grilleEntites = new ArrayList[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
 
     private Ordonnanceur ordonnanceur = new Ordonnanceur(this);
@@ -83,7 +83,7 @@ public class Jeu {
     public int addPoint(Entite ramasable, Point pCible) {
         this.score += 100;
         grilleEntites[pCible.x][pCible.y].remove(ramasable);
-        if(bombes == 1){
+        if(bombes == 0){
             this.sucess();
         }
        
@@ -98,7 +98,7 @@ public class Jeu {
         smick = new Bot(this);
         Bot smick2 = new Bot(this);
 
-        addEntite(smick, 13, 4);        //TODO
+        addEntite(smick, 13, 4);        
         addEntite(smick2, 20, 14);       //Ici  creer un smick 2 pour avoir une reference differente
 
         // gravité + directions pour Hector
@@ -404,7 +404,7 @@ public class Jeu {
     }
 
 
-    private Point calculerPointCible(Point pCourant, Direction d) {
+    public Point calculerPointCible(Point pCourant, Direction d) {
         Point pCible = null;
 
         switch (d) {
@@ -440,7 +440,7 @@ public class Jeu {
         return p.x >= 0 && p.x < SIZE_X && p.y >= 0 && p.y < SIZE_Y;
     }
 
-    private Entite objetALaPosition(Point p) {
+    public Entite objetALaPosition(Point p) {
         Entite retour = null;
 
         if (contenuDansGrille(p)) {
@@ -457,6 +457,8 @@ public class Jeu {
     }
     public void sucess(){
         System.out.println("Victory !!");
+        ordonnanceur.gameOver();
+
     }
     public boolean getkill(){
         return this.b;
@@ -464,6 +466,7 @@ public class Jeu {
 
     public boolean gameOver(boolean b){
         System.out.println("Game over");
+        ordonnanceur.gameOver();
         this.b = true;
         return this.b;
     }

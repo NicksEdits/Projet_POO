@@ -14,8 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener; 
+ 
 
 import modele.deplacements.Controle4Directions;
 import modele.deplacements.Direction;
@@ -34,6 +33,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private int sizeY;
     private int width;
     private int height;
+    public JComponent gamePanel ;
+    private boolean gameOverOrWin = false;
 
     // icones affichées dans la grille
     private ImageIcon icoHero;
@@ -59,7 +60,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
     private Timer timer;
-    private int timeSecond = 300;   //Set ici le temps de jeu de base
+    public int timeSecond = 300;   //Set ici le temps de jeu de base
     private JLabel score ;
     private JLabel nbbombes;
     private JLabel WinOrLose;
@@ -72,10 +73,10 @@ public class VueControleurGyromite extends JFrame implements Observer {
         height = sizeY * 21;
         chargerLesIcones();
         placerLesComposantsGraphiques();
-        ajouterEcouteurClavier();
+        ajouterEcouteurClavier(false);
     }
 
-    private void ajouterEcouteurClavier() {
+    private void ajouterEcouteurClavier(boolean b) {
         addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
             @Override
             public void keyPressed(KeyEvent e) {
@@ -91,19 +92,38 @@ public class VueControleurGyromite extends JFrame implements Observer {
                         break;
                     case KeyEvent.VK_UP:
                         Controle4Directions.getInstance().setDirectionCourante(Direction.haut);
+                        System.out.println("up");
+
                         break;
+                       
+                  case KeyEvent.VK_SPACE:
+                        if (gameOverOrWin){
+                            System.out.println("reset");
+                          reset();
+                         
+                    } break;
+                   
+                    
+                    
+
                 }
             }
         });
     }
-   
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode()==KeyEvent.VK_SPACE){
-            WinOrLose.setText("Touche pressée");
-       }
-       
-      }  
-
+    public void reset(){
+        this.jeu = new Jeu();
+        //chargerLesIcones();       
+        gamePanel.removeAll();
+        placerLesComposantsGraphiques();
+        jeu.getOrdonnanceur().deleteObservers();
+        jeu.getOrdonnanceur().addObserver(this);                
+        this.setVisible(true);
+        timeSecond = 300;
+        
+             
+        jeu.start(300);
+        gameOverOrWin = false;
+    }
     private void chargerLesIcones() {
         icoHero = chargerIcone("Images/player_ca.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
         icoBot = chargerIcone("Images/smick_ca.png", 0, 0, 40, 40);//chargerIcone("Images/Pacman.png");
@@ -131,7 +151,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
         setSize(width, height); // changement de la taille de la fenetre 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
-        JComponent gamePanel = new JPanel(new BorderLayout()); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+         gamePanel = new JPanel(new BorderLayout()); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
 
         JComponent grilleJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
@@ -220,15 +240,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
                             case 3:
                                 tabJLabel[x][y].setIcon(icoBonus); // Bombe
                                 break;
-                       /* case 4 :
-                        tabJLabel[x][y].setIcon(icoBombeEnclenché); // Bombe encleché
-                        break;
-                        case 5 :
-                        tabJLabel[x][y].setIcon(icoBombe_explosé); // Bombe explosé
-                        break;
-                        case 6 :
-                        tabJLabel[x][y].setIcon( ); // platforme apres la colonne
-                        break;*/
                         }
                     } else if (e instanceof Cable) {
                         tabJLabel[x][y].setIcon(icoCable);
@@ -298,7 +309,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         mettreAJourAffichage();
-        
         SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
@@ -348,34 +358,31 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
 
     public void gameOver(boolean WinorLose){
-
+       
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 tabJLabel[x][y].setIcon(icoVide);
-
             }
         }
         timer.stop();
-        jeu.resetCmptDepl();
         if (WinorLose){
             WinOrLose.setText("Time exeded .. Game over ! Press Space to restart");
         } else WinOrLose.setText("You're dead.. Game over ! Press Space to restart");
-
+        gameOverOrWin = true;
        /*  JLabel gameOverText = new JLabel("Game over ! press space to restart");
         this.add(gameOverText);*/
 
         
 
-    }
+    } 
     public void sucess(){
 
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 tabJLabel[x][y].setIcon(icoVide);
-
             }
         }
-        jeu.resetCmptDepl();
+        gameOverOrWin = true;
         WinOrLose.setText("Victory you win ! Press Space to restart ");
        /*  JLabel sucessText = new JLabel("Victory ! presse space to restart");
         this.add(sucessText); */
