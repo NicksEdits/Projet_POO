@@ -61,4 +61,6 @@ public class Controle4Directions extends RealisateurDeDeplacement {
     public void resetDirection() {
         directionCourante = null;
     }
+
+
 }
