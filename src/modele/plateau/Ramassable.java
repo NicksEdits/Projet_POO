@@ -17,4 +17,5 @@ public class Ramassable extends EntiteStatique {
     public boolean peutPermettreDeMonterDescendre() { return false; }
     @Override
     public boolean jouable(){return false;}
+    public boolean estUnRadit(){return true;}
 }

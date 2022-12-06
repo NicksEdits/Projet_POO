@@ -33,8 +33,10 @@ public class Jeu {
     private Bot smick;
     private int score = 0;
     private int bombes = 4;
+
+    private int radit = 1;
     private boolean b = false;
-    
+
 
     public HashMap<Entite, Point> map = new HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private ArrayList<Entite>[][] grilleEntites = new ArrayList[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -89,19 +91,43 @@ public class Jeu {
     public int getScore() {
         return this.score;
     }
-    public int getBombe(){
-        
+
+    public int getBombe() {
+
         return this.bombes;
+    }
+
+    public int getRadit() {
+        return this.radit;
+    }
+
+    public void dropRadit(){
+
+        if(radit > 0){
+            Point positionHector = map.get(hector);
+
+            addEntite( new Ramassable(this, 2),positionHector.x, positionHector.y);
+
+            radit--;
+        }
+
     }
 
     public int addPoint(Entite ramasable, Point pCible) {
         this.score += 100;
         grilleEntites[pCible.x][pCible.y].remove(ramasable);
-        if(bombes == 0){
+        if (bombes == 0) {
             this.sucess();
         }
-       
+
         return score;
+    }
+
+    public void ramasser(Entite ramasable, Point pCible, boolean isHero){
+        grilleEntites[pCible.x][pCible.y].remove(ramasable);
+        if(isHero){
+            radit++;
+        }
     }
 
     private void initialisationDesEntites() {
@@ -115,7 +141,7 @@ public class Jeu {
         smick = new Bot(this);
         Bot smick2 = new Bot(this);
 
-        addEntite(smick, 13, 4);        
+        addEntite(smick, 13, 4);
         addEntite(smick2, 20, 14);       //Ici  creer un smick 2 pour avoir une reference differente
 
         // gravité + directions pour Hector
@@ -153,9 +179,8 @@ public class Jeu {
         addEntite(new Ramassable(this, 1), 2, 13);
         addEntite(new Ramassable(this, 1), 2, 7);
         addEntite(new Ramassable(this, 1), 10, 13);
+
         // radis
-
-
         addEntite(new Ramassable(this, 2), 14, 4);
         addEntite(new Ramassable(this, 2), 24, 8);
 
@@ -339,7 +364,7 @@ public class Jeu {
             addEntite(new Cable(this), 16, i);
 
         }
-        
+
     }
 
     /**
@@ -351,7 +376,7 @@ public class Jeu {
 
         grilleEntites[x][y].add(e);  //Ici ajouté une liste d'entité
         map.put(e, new Point(x, y));
-        
+
     }
 
     /**
@@ -387,6 +412,7 @@ public class Jeu {
         
       //  boolean col = 
 
+
         if (contenuDansGrille(pCible) && objPosition == null || (objPosHero.jouable() && objPosition.jouable()) || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable() /*|| !objPosition.jouable()*/) { // a adapter (collisions murs, etc.)
 
             //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
@@ -410,17 +436,29 @@ public class Jeu {
                     }
                     break;
             }
-            if (objPosition != null && objPosition.objetPeutEtreRamassable() && e instanceof Heros ) {
-                                addPoint(objPosition, pCible);
-                                int ty =  objPosition.getType();
-                                if(ty ==1){
-                                    bombes-=1;
-                                }
-                             
+            if (objPosition != null && objPosition.objetPeutEtreRamassable() ) {
+
+                if(((Ramassable)objPosition).estUnRadit() ){
+                    ramasser(objPosition, pCible, (e instanceof Heros));
+                }else if(e instanceof Heros){
+                    addPoint(objPosition, pCible);
+
+                    if (objPosition.getType() == 1) {
+                        bombes -= 1;
+                    } else if (objPosition.getType() == 2) {
+                        radit += 1;
+                    }
+
+                }
 
 
-                                ;
+
+
             }
+
+            //Pour les smicks => pouvoir rammaser les radits après une pause
+
+
         }
 
         if (retour) {
@@ -484,22 +522,23 @@ public class Jeu {
     public Ordonnanceur getOrdonnanceur() {
         return ordonnanceur;
     }
-    public void sucess(){
+
+    public void sucess() {
         System.out.println("Victory !!");
         ordonnanceur.gameOver();
 
     }
-    public boolean getkill(){
+
+    public boolean getkill() {
         return this.b;
     }
 
-    public boolean gameOver(boolean b){
+    public boolean gameOver(boolean b) {
         System.out.println("Game over");
         ordonnanceur.gameOver();
         this.b = true;
         return this.b;
     }
-
 
 
 }
