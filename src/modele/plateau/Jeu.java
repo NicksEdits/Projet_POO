@@ -28,6 +28,8 @@ public class Jeu {
     private HashMap<Entite, Integer> cmptDeplV = new HashMap<Entite, Integer>();
 
     private Heros hector;
+
+    private Heros hector2;
     private Bot smick;
     private int score = 0;
     private int bombes = 4;
@@ -63,9 +65,21 @@ public class Jeu {
     public ArrayList<Entite>[][] getGrille() {
         return grilleEntites;
     }
+   /*  public Heros getHero(){
+        if(type == 1){
+            return hector;
+        }else return hector2;
+        
 
-    public Heros getHector() {
-        return hector;
+
+
+    }*/
+
+    public Heros getHector() {  
+        return hector; 
+    }
+    public Heros getHeros2(){
+        return hector2;
     }
 
     public Bot getSmick() {
@@ -92,8 +106,11 @@ public class Jeu {
 
     private void initialisationDesEntites() {
         // hero
-        hector = new Heros(this);
+        hector = new Heros(this,1);
+        hector2 = new Heros(this,2);
+        addEntite(hector2, 1, 16);
         addEntite(hector, 2, 16);
+
         // smick
         smick = new Bot(this);
         Bot smick2 = new Bot(this);
@@ -105,6 +122,10 @@ public class Jeu {
         Gravite g = new Gravite();
         g.addEntiteDynamique(hector);
         ordonnanceur.add(g);
+
+        Gravite v = new Gravite();
+        g.addEntiteDynamique(hector2);
+        ordonnanceur.add(v);
 
         // gravité + directions pour les smicks + IA
         Gravite s = new Gravite();
@@ -121,7 +142,11 @@ public class Jeu {
 
 
         Controle4Directions.getInstance().addEntiteDynamique(hector);
+        Controle4Directions.getInstance2().addEntiteDynamique(hector2);
+
         ordonnanceur.add(Controle4Directions.getInstance());
+        ordonnanceur.add(Controle4Directions.getInstance2());
+
 
         // bombes 
         addEntite(new Ramassable(this, 1), 7, 17);
@@ -350,17 +375,19 @@ public class Jeu {
         Point pCible = calculerPointCible(pCourant, d);     // ex : regarde dans la case ou le joueur veux aller pour voir si c'est possible d'y aller
 
         Entite objPosition = objetALaPosition(pCible);
+        Point pCibleh = calculerPointCible(pCourant, Direction.luiMeme); 
+        Entite objPosHero = objetALaPosition(pCibleh);
 
-
-        if(objPosition != null && (objPosition.peutMourir() || (objPosition.peutTuer() &&  e.peutMourir()))){
+        
+        if( (objPosition != null ) && ((objPosition.jouable() && !objPosHero.jouable())  && ((objPosition.peutMourir() ) || (objPosition.peutTuer() &&  e.peutMourir())))){
             boolean b =false;
             this.gameOver(b);
             
-        }
+    }
         
-        
+      //  boolean col = 
 
-        if (contenuDansGrille(pCible) && objPosition == null || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable()) { // a adapter (collisions murs, etc.)
+        if (contenuDansGrille(pCible) && objPosition == null || (objPosHero.jouable() && objPosition.jouable()) || objPosition.peutPermettreDeMonterDescendre() || objPosition.objetPeutEtreRamassable() /*|| !objPosition.jouable()*/) { // a adapter (collisions murs, etc.)
 
             //contenuDansGrille(pCible) vérifie que tu ne sors pas de la map
             //objetALaPosition(pCible)  == null  regarde qu'il n'y ai rien dans la case cible
@@ -420,6 +447,8 @@ public class Jeu {
             case droite:
                 pCible = new Point(pCourant.x + 1, pCourant.y);
                 break;
+            case luiMeme:
+                pCible = new Point(pCourant.x,pCourant.y);
 
         }
 

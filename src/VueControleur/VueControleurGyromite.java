@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.ResourceBundle.Control;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -81,19 +82,32 @@ public class VueControleurGyromite extends JFrame implements Observer {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {  // on regarde quelle touche a été pressée
-                    case KeyEvent.VK_LEFT:
+                        case KeyEvent.VK_LEFT:
                         Controle4Directions.getInstance().setDirectionCourante(Direction.gauche);
                         break;
-                    case KeyEvent.VK_RIGHT:
+                        case KeyEvent.VK_RIGHT:
                         Controle4Directions.getInstance().setDirectionCourante(Direction.droite);
                         break;
-                    case KeyEvent.VK_DOWN:
+                        case KeyEvent.VK_DOWN:
                         Controle4Directions.getInstance().setDirectionCourante(Direction.bas);
                         break;
-                    case KeyEvent.VK_UP:
+                        case KeyEvent.VK_UP:
                         Controle4Directions.getInstance().setDirectionCourante(Direction.haut);
                         System.out.println("up");
+                        break;
 
+                        case KeyEvent.VK_Z:
+                        Controle4Directions.getInstance2().setDirectionCourante(Direction.haut);
+                        break;
+                        case KeyEvent.VK_Q:
+                        Controle4Directions.getInstance2().setDirectionCourante(Direction.gauche);
+                        break;
+                        case KeyEvent.VK_S:
+                        Controle4Directions.getInstance2().setDirectionCourante(Direction.bas);
+                        break;
+                        case KeyEvent.VK_D:
+                        Controle4Directions.getInstance2().setDirectionCourante(Direction.droite);
+                        System.out.println("right");
                         break;
                        
                   case KeyEvent.VK_SPACE:
@@ -292,6 +306,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
             gameOver(true);
 
         } else if (jeu.getkill()){
+           
+           int c = jeu.getHector().getType();
             gameOver(false);
             timer.stop();
             
@@ -366,15 +382,19 @@ public class VueControleurGyromite extends JFrame implements Observer {
         }
         timer.stop();
         if (WinorLose){
-            WinOrLose.setText("Time exeded .. Game over ! Press Space to restart");
-        } else WinOrLose.setText("You're dead.. Game over ! Press Space to restart");
-        gameOverOrWin = true;
+           WinOrLose.setText("Time exeded .. Game over ! Press Space to restart");
+        
+        } else {WinOrLose.setText("You're dead.. Game over ! Press Space to restart");}
+           /*  if(c==1){
+                WinOrLose.setText("Game 1  dead.. Game over ! Press Space to restart");
+            }else WinOrLose.setText("Game 2 you're dead.. Game over ! Press Space to restart");*/
+        gameOverOrWin = true;}
        /*  JLabel gameOverText = new JLabel("Game over ! press space to restart");
         this.add(gameOverText);*/
 
         
 
-    } 
+     
     public void sucess(){
 
         for (int y = 0; y < sizeY; y++) {

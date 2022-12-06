@@ -18,6 +18,8 @@ public class Bot extends EntiteDynamique {
     }
     
     public  int getType(){return 0;}
+    @Override
+    public boolean jouable(){return false;}
     public boolean peutEtreEcrase() { return true; }
     public boolean peutServirDeSupport() { return true; }
     public boolean peutPermettreDeMonterDescendre() { return false; }

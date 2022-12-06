@@ -10,12 +10,20 @@ public class Controle4Directions extends RealisateurDeDeplacement {
     private Direction directionCourante;
     // Design pattern singleton
     private static Controle4Directions c3d;
+    private static Controle4Directions c4d;
+
 
     public static Controle4Directions getInstance() {
         if (c3d == null) {
             c3d = new Controle4Directions();
         }
         return c3d;
+    }
+    public static Controle4Directions getInstance2() {
+        if (c4d == null) {
+            c4d = new Controle4Directions();
+        }
+        return c4d;
     }
 
     public void setDirectionCourante(Direction _directionCourante) {

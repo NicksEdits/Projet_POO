@@ -9,7 +9,8 @@ public class Colonne extends EntiteDynamique {
         public int getType(){
             return type;
         }
-
+    @Override
+    public boolean jouable(){return false;}
     public boolean peutEtreEcrase() { return false; }
     public boolean peutServirDeSupport() { return true; }
     public boolean peutPermettreDeMonterDescendre() { return false; }

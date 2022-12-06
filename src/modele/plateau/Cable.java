@@ -8,4 +8,6 @@ public class Cable extends EntiteStatique {
     public boolean peutPermettreDeMonterDescendre() { return true; }
     @Override
     public boolean peutServirDeSupport() { return false; }
+    @Override
+    public boolean jouable(){return true;}
 }

@@ -7,12 +7,18 @@ package modele.plateau;
 
 /**
  * Héros du jeu
- */
+ */   
+
 public class Heros extends EntiteDynamique {
-    public Heros(Jeu _jeu) {
+    private int typejoueur;
+    public Heros(Jeu _jeu, int typejoueur) {
         super(_jeu);
+        this.typejoueur = typejoueur;
     }
-    public  int getType(){return 0;}
+    public  int getType(){
+        return typejoueur;
+    }
+
 
     public boolean peutEtreEcrase() { return true; }
     public boolean peutServirDeSupport() { return true; }
@@ -21,4 +27,5 @@ public class Heros extends EntiteDynamique {
 
     public boolean peutMourir(){ return true;}
     public  boolean peutTuer(){ return false;}
+    public boolean jouable(){ return true;}
 }

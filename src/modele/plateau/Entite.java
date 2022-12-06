@@ -21,6 +21,7 @@ public abstract class Entite {
 
     public abstract boolean peutMourir();
     public abstract boolean peutTuer();
+    public abstract boolean jouable();
     
 
 }
