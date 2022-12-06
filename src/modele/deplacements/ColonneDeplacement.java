@@ -1,6 +1,7 @@
 package modele.deplacements;
 import modele.plateau.Colonne;
 import modele.plateau.Entite;
+import modele.plateau.EntiteDynamique;
 
 import java.util.LinkedList;
 
@@ -33,7 +34,18 @@ public class ColonneDeplacement extends RealisateurDeDeplacement {
 
             Entite eCible = this.colonneEntière.getFirst().regarderDansLaDirection(directionCourante);
 
-            if(eCible != null && !eCible.peutMourir() ){
+            if(eCible != null && eCible.peutMourir()){
+
+                for(int i = 0; i < colonneEntière.size(); i++){
+
+                    if(eCible instanceof EntiteDynamique){
+                        ((EntiteDynamique) eCible).avancerDirectionChoisie(directionCourante);
+                    }
+                    this.colonneEntière.get(i).avancerDirectionChoisie(directionCourante);
+                }
+                ret = true;
+            }
+            else if(eCible != null && !eCible.peutMourir() ){
                 this.directionCourante = Direction.bas;
             }else{
                 for(int i = 0; i < colonneEntière.size(); i++){

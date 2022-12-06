@@ -16,8 +16,6 @@ public class Gravite extends RealisateurDeDeplacement {
 
                 if (e.avancerDirectionChoisie(Direction.bas))
                     ret = true;
-
-
             }
         }
 
