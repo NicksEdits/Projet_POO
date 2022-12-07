@@ -21,7 +21,6 @@ import modele.deplacements.Controle4Directions;
 import modele.deplacements.Direction;
 import modele.plateau.*;
 
-
 /**
  * Cette classe a deux fonctions :
  * (1) Vue : proposer une représentation graphique de l'application (cases graphiques, etc.)
@@ -75,11 +74,11 @@ public class VueControleurGyromite extends JFrame implements Observer {
         height = sizeY * 21;
         chargerLesIcones();
         placerLesComposantsGraphiques();
-        ajouterEcouteurClavier(false);
+        ajouterEcouteurClavier();
     }
-
-    private void ajouterEcouteurClavier(boolean b) {
-        addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
+    
+    private void ajouterEcouteurClavier(){
+        addKeyListener(new KeyAdapter(){ // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {  // on regarde quelle touche a été pressée
@@ -100,44 +99,46 @@ public class VueControleurGyromite extends JFrame implements Observer {
                         case KeyEvent.VK_Z:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.haut);
                         break;
+
                         case KeyEvent.VK_Q:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.gauche);
                         break;
+
                         case KeyEvent.VK_S:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.bas);
                         break;
+
                         case KeyEvent.VK_D:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.droite);
                         System.out.println("right");
                         break;
 
-                    case KeyEvent.VK_SPACE:
+                        case KeyEvent.VK_SPACE:
                         if (gameOverOrWin) {
                             reset();
-
                         }
                         break;
 
-                    case KeyEvent.VK_R:
-
+                        case KeyEvent.VK_R:
                         if(jeu.getRadit() > 0){
                             System.out.println("key r press when radit >= 1");
                             jeu.dropRadihector2();
-
                         }
+                        break;
+                        
                         case KeyEvent.VK_M:
-
                         if(jeu.getRadit() > 0){
-                            System.out.println("key m press when radit >= 1");
+                            System.out.println("key m press when radit >= 1");                            
                             jeu.dropRadit();
-
                         }
+                        break;
 
-
-
+                        case KeyEvent.VK_ESCAPE:
+                        System.exit(0);
+                        break;
+                    }
                 }
-            }
-        });
+            });
     }
 
     public void reset() {
@@ -170,7 +171,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
         icoPlatforme_apres_colonne = chargerIcone("Images/tileset.png", 34, 15, 15, 15);
         icoCable = chargerIcone("Images/tileset.png", 18, 0, 15, 15);
         icoRadis = chargerIcone("Images/smick_ca.png", 35, 130, 30, 30);
-        icoBonus = chargerIcone("Images/bomb_ca.png", 10, 10, 45, 45);
+        icoBonus = chargerIcone("Images/Pacman.png");
 
     }
 

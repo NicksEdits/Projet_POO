@@ -122,23 +122,38 @@ public class Jeu {
         }
 
     }
-
-    public int addPoint(Entite ramasable, Point pCible) {
-        this.score += 100;
+    public void addPoints(Entite ramasable, Point pCible){
         grilleEntites[pCible.x][pCible.y].remove(ramasable);
         if (bombes == 0) {
             this.sucess();
         }
+        
+    }
+    public int addPoint(Entite ramasable, Point pCible) {
+      
+       if (
+           ramasable.getType()==3){
+               this.score += 500;
+               addPoints(ramasable,pCible);
+            }
+        if (
+            ramasable.getType()==1){
+                this.score += 150;
+                addPoints(ramasable,pCible);
+        }
+       
 
         return score;
     }
 
     public void ramasser(Entite ramasable, Point pCible, boolean isHero){
+       
+        if(isHero)
         grilleEntites[pCible.x][pCible.y].remove(ramasable);
-        if(isHero){
+        
             radit++;
         }
-    }
+    
 
     private void initialisationDesEntites() {
         // hero
@@ -191,8 +206,13 @@ public class Jeu {
         addEntite(new Ramassable(this, 1), 10, 13);
 
         // radis
-        addEntite(new Ramassable(this, 2), 14, 4);
+        addEntite(new Ramassable(this, 2), 15, 4);
         addEntite(new Ramassable(this, 2), 24, 8);
+        addEntite(new Ramassable(this, 2), 10, 10);
+
+        //Bonus
+        addEntite(new Ramassable(this, 3), 13, 10);
+
 
         // murs extérieurs horizontaux
         for (int x = 0; x < SIZE_X; x++) {
@@ -406,6 +426,7 @@ public class Jeu {
         boolean retour = false;
 
         Point pCourant = map.get(e);
+        
 
         Point pCible = calculerPointCible(pCourant, d);     // ex : regarde dans la case ou le joueur veux aller pour voir si c'est possible d'y aller
 
