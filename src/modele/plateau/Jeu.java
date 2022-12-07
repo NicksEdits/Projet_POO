@@ -112,6 +112,16 @@ public class Jeu {
         }
 
     }
+    public void dropRadihector2(){
+        if(radit > 0){
+            Point positionHector = map.get(hector2);
+
+            addEntite( new Ramassable(this, 2),positionHector.x, positionHector.y);
+
+            radit--;
+        }
+
+    }
 
     public int addPoint(Entite ramasable, Point pCible) {
         this.score += 100;
@@ -436,9 +446,9 @@ public class Jeu {
                     }
                     break;
             }
-            if (objPosition != null && objPosition.objetPeutEtreRamassable() ) {
+            if (objPosHero.jouable() && objPosition != null && objPosition.objetPeutEtreRamassable() ) {
 
-                if(((Ramassable)objPosition).estUnRadit() ){
+                if(((Ramassable)objPosition).estUnRadit()==2 ){
                     ramasser(objPosition, pCible, (e instanceof Heros));
                 }else if(e instanceof Heros){
                     addPoint(objPosition, pCible);

@@ -39,6 +39,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     // icones affichées dans la grille
     private ImageIcon icoHero;
+    private ImageIcon icoHero2;
     private ImageIcon icoBot;
     private ImageIcon icoBombe;
     private ImageIcon icoVide;
@@ -121,9 +122,17 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
                         if(jeu.getRadit() > 0){
                             System.out.println("key r press when radit >= 1");
+                            jeu.dropRadihector2();
+
+                        }
+                        case KeyEvent.VK_M:
+
+                        if(jeu.getRadit() > 0){
+                            System.out.println("key m press when radit >= 1");
                             jeu.dropRadit();
 
                         }
+
 
 
                 }
@@ -146,7 +155,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
     }
 
     private void chargerLesIcones() {
-        icoHero = chargerIcone("Images/player_ca.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
+        icoHero = chargerIcone("Images/sprites.png", 0, 0,25, 30);
+        icoHero2=chargerIcone("Images/sprites.png", 139, 0,25, 30);//chargerIcone("Images/Pacman.png");
         icoBot = chargerIcone("Images/smick_ca.png", 0, 0, 40, 40);//chargerIcone("Images/Pacman.png");
         icoVide = chargerIcone("Images/Mur.png");
         icoColonne = chargerIcone("Images/tileset.png", 17, 45, 15, 15);
@@ -237,9 +247,18 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
                 for (Entite e : jeu.getGrille()[x][y]) {
 
-                    if (e instanceof Heros) { // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
-
+                    if (e instanceof Heros) {
+                        Heros hero = (Heros) e;
+                        switch(hero.getType()){
+                            case 1 :
+                        // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
                         tabJLabel[x][y].setIcon(icoHero);
+                            break;
+                            case 2:
+                            tabJLabel[x][y].setIcon(icoHero2);
+                            break;
+
+                        }
                         // si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
                         //BufferedImage bi = getImage("Images/smick.png", 0, 0, 20, 20);
                         //tabJLabel[x][y].getGraphics().drawImage(bi, 0, 0, null);
