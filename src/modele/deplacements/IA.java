@@ -20,7 +20,7 @@ public class IA extends RealisateurDeDeplacement {
             delay++;
         }
 
-        if (delay >= 8) {
+        if (delay >= 20) {
             stuckOnRadit = false;
             delay = 0;
         }

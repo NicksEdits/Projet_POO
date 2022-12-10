@@ -556,6 +556,7 @@ public class Jeu {
 
     public void sucess() {
         System.out.println("Victory !!");
+        System.out.println(" Score  : " + score );
         ordonnanceur.gameOver();
 
     }
@@ -566,6 +567,8 @@ public class Jeu {
 
     public boolean gameOver(boolean b) {
         System.out.println("Game over");
+        System.out.println(" Score  : " + score );
+
         ordonnanceur.gameOver();
         this.b = true;
         return this.b;
