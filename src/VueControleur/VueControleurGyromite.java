@@ -95,19 +95,15 @@ public class VueControleurGyromite extends JFrame implements Observer {
                         Controle4Directions.getInstance().setDirectionCourante(Direction.haut);
                         System.out.println("up");
                         break;
-
                         case KeyEvent.VK_Z:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.haut);
                         break;
-
                         case KeyEvent.VK_Q:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.gauche);
                         break;
-
                         case KeyEvent.VK_S:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.bas);
                         break;
-
                         case KeyEvent.VK_D:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.droite);
                         System.out.println("right");
@@ -143,7 +139,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     public void reset() {
         this.jeu = new Jeu();
-        //chargerLesIcones();       
         gamePanel.removeAll();
         placerLesComposantsGraphiques();
         jeu.getOrdonnanceur().deleteObservers();
@@ -324,8 +319,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 }
 
             }
-            int b = jeu.getBombe();
-            if (b == 0) {
+            int nbBombes = jeu.getBombe();
+            if (nbBombes == 0) {
                 timer.stop();
                 sucess();
             }
@@ -400,7 +395,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
 
     public void gameOver(boolean WinorLose) {
-
         gameOverOrWin = true ;
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
@@ -410,19 +404,10 @@ public class VueControleurGyromite extends JFrame implements Observer {
         timer.stop();
         if (WinorLose) {
             WinOrLose.setText("Time exeded .. Game over ! Press Space to restart");
-
         } else {
             WinOrLose.setText("You're dead.. Game over ! Press Space to restart");}
         }
-      
-       /*  JLabel gameOverText = new JLabel("Game over ! press space to restart");
-        this.add(gameOverText);*/
-
-
-     
     public void sucess(){
-
-
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 tabJLabel[x][y].setIcon(icoVide);
@@ -430,9 +415,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
         }
         gameOverOrWin = true;
         WinOrLose.setText("Victory you win ! Press Space to restart ");
-       /*  JLabel sucessText = new JLabel("Victory ! presse space to restart");
-        this.add(sucessText); */
-
     }
 
 }

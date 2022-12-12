@@ -468,18 +468,12 @@ public class Jeu {
                     break;
             }
             if (objPosHero.jouable() && objPosition != null && objPosition.objetPeutEtreRamassable() ) {
-
                 if(((Ramassable)objPosition).estUnRadit()==2 ){
                     ramasser(objPosition, pCible, (e instanceof Heros));
                 }else if(e instanceof Heros){
                     addPoint(objPosition, pCible);
-
-                    if (objPosition.getType() == 1) {
-                        bombes -= 1;
-                    } else if (objPosition.getType() == 2) {
-                        radit += 1;
-                    }
-
+                    if (objPosition.getType() == 1) {bombes -= 1;} 
+                    else if (objPosition.getType() == 2) {radit += 1;}
                 }
 
 
