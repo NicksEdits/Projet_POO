@@ -93,7 +93,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
                         break;
                         case KeyEvent.VK_UP:
                         Controle4Directions.getInstance().setDirectionCourante(Direction.haut);
-                        System.out.println("up");
                         break;
                         case KeyEvent.VK_Z:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.haut);
@@ -106,7 +105,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
                         break;
                         case KeyEvent.VK_D:
                         Controle4Directions.getInstance2().setDirectionCourante(Direction.droite);
-                        System.out.println("right");
                         break;
 
                         case KeyEvent.VK_SPACE:
@@ -117,14 +115,12 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
                         case KeyEvent.VK_R:
                         if(jeu.getRadit() > 0){
-                            System.out.println("key r press when radit >= 1");
                             jeu.dropRadihector2();
                         }
                         break;
                         
                         case KeyEvent.VK_M:
                         if(jeu.getRadit() > 0){
-                            System.out.println("key m press when radit >= 1");                            
                             jeu.dropRadit();
                         }
                         break;

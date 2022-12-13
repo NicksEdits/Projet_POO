@@ -32,9 +32,7 @@ public class IA extends RealisateurDeDeplacement {
                 Entite eCible = e.regarderDansLaDirection(directionCourante);
                 if (eCible instanceof Ramassable) {
                     if (((Ramassable) eCible).estUnRadit()==2) {
-                        stuckOnRadit = true;
-                        System.out.printf("bot touche radit");
-                        ;
+                        stuckOnRadit = true;                       ;
                     }
                 }
 
